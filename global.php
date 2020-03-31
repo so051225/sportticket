@@ -1,8 +1,9 @@
 <?php
 
 	
-	include_once('dal/site_view.php'); 
 	
+	include_once('config.php');
+	include_once(ROOT_PATH . 'dal\site_view.php'); 
 	
 	class GlobalCommon{		
 	

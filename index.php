@@ -28,7 +28,8 @@
 		<header>
 		  <div class="row">
 			<?php
-				include_once('global.php'); 
+				include_once('global.php'); 			
+				
 				$globalObj = new GlobalCommon();
 				$siteName = $globalObj->get_sitename();
 				echo $siteName; 

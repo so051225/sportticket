@@ -2,8 +2,7 @@
 
 <?php 
 
-
-include_once('./db.php'); 
+include(ROOT_PATH. 'db.php'); 
 
 class SiteView {
 	public function get_site_by_id ($siteid) {
@@ -12,4 +11,5 @@ class SiteView {
 		return $site;
 	}
 }
+
 ?>
