@@ -29,8 +29,7 @@ CREATE TABLE `sport_ticket`.`tb_court` (
     `court_no` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'court number',
     `fee_weekday` decimal(10,2) NOT NULL DEFAULT 0 COMMENT 'fee for weekday',
     `fee_weekend` decimal(10,2) NOT NULL DEFAULT 0 COMMENT 'fee for weekend',
-    PRIMARY KEY (`cid`) USING BTREE,
-    FOREIGN KEY (`sid`) REFERENCES tb_site(`sid`)
+    PRIMARY KEY (`cid`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 DROP TABLE IF EXISTS `sport_ticket`.`tb_order`;
@@ -52,8 +51,5 @@ CREATE TABLE `sport_ticket`.`tb_order` (
   `people_count` int(11) NOT NULL DEFAULT 1 COMMENT 'number of people',
   `site_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'site name',
   `court_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'court name',
-  PRIMARY KEY (`oid`) USING BTREE,
-  FOREIGN KEY (`cuid`) REFERENCES tb_customer(`cuid`),
-  FOREIGN KEY (`sid`) REFERENCES tb_site(`sid`),
-  FOREIGN KEY (`cid`) REFERENCES tb_court(`cid`)
+  PRIMARY KEY (`oid`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
