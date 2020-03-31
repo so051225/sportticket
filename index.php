@@ -28,8 +28,7 @@
 		<header>
 		  <div class="row">
 			<?php
-				include_once('global.php'); 			
-				
+				include_once('global.php');				
 				$globalObj = new GlobalCommon();
 				$siteName = $globalObj->get_sitename();
 				echo $siteName; 
@@ -40,8 +39,10 @@
 
 		<nav>
 		  <div class="row">
-			<ul>
-			</ul>
+
+			<div id='court-list'>				
+			</div>
+	
 			<div id="dialog-form" title="新增" style="display:none">
 			  <form>
 				<fieldset>
@@ -133,7 +134,24 @@
 		</footer>
 		<script>
 			$(document).ready(function() {
+				// render js datatable
 				$('#tickettable').DataTable();
+				
+				// get court list
+				$.getJSON( "http://localhost/sportticket/api/getCourtBySite.php?siteid=1" )
+					.done(function( data ) {
+						console.log( data);
+						list = '<ul>';
+						$.each(data, function( i, item) {
+							list += "<li> " + item['court_no'] + '</li>';							
+						});
+						list += '</ul>';
+						// $('#court-list').html( list );
+					})
+					.fail(function( jqxhr, textStatus, error ) {
+						var err = textStatus + ", " + error;
+						console.log( "Request Failed: " + err );
+				});
 			} );
 		</script>
 	</body>
