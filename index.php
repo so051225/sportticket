@@ -29,7 +29,8 @@
 		  <div class="row">
 			<?php
 				include_once('global.php'); 
-				$siteName = get_sitename();
+				$globalObj = new GlobalCommon();
+				$siteName = $globalObj->get_sitename();
 				echo $siteName; 
 			?>
 			<button id="create-ticket">新增</button>
