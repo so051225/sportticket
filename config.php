@@ -1,8 +1,6 @@
-
-
 <?php
 	$servername = "localhost";
-	$username = "test_user";
+	$username = "sport_ticket";
 	$password = "password!";
-	$siteId = 1;
+	$siteid = 1;	
 ?>
