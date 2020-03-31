@@ -1,13 +1,14 @@
 <?php
 
 	
-	include_once('db.php'); 
+	include_once('dal/site_view.php'); 
+	
 	
 	class GlobalCommon{		
 	
 		public function get_sitename () {
-			$db = new db();
-			$site = $db->query('SELECT * FROM tb_site WHERE sid = ?', $this->get_siteid())->fetchArray();
+			$siteView = new SiteView();
+			$site = $siteView->get_site_by_id($this->get_siteid());
 			return $site['site_name_zh'];
 		}
 		
