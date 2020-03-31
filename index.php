@@ -8,7 +8,6 @@
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 		<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-		
 		<link rel="stylesheet" href="css/main.css">
 		<title>Sport Ticket</title>
 	</head>
@@ -28,15 +27,12 @@
 		<nav>
 		  <div class="row">
 			<ul>
-			  <li>Link 1</li>
-			  <li>Link 2</li>
-			  <li>Link 3</li>
 			</ul>
 		  </div>
 		</nav>
 
 		<div class="row">
-		  <table id="example" class="display" style="width:100%">
+		  <table id="tickettable" class="display" style="width:100%">
 			<thead>
 				<tr>
 					<th>票號</th>
@@ -47,6 +43,7 @@
 					<th>人數</th>
 					<th>費用</th>
 					<th>付款方式</th>
+					<th>取消</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -59,6 +56,7 @@
 					<td>3</td>
 					<td>$20</td>
 					<td>現金</td>
+					<td><button>取消</button></td>
 				</tr>
 				<tr>
 					<td>4741775</td>					
@@ -69,6 +67,7 @@
 					<td>3</td>
 					<td>$20</td>
 					<td>現金</td>
+					<td><button>取消</button></td>
 				</tr>
 				<tr>
 					<td>4741775</td>					
@@ -79,6 +78,7 @@
 					<td>3</td>
 					<td>$20</td>
 					<td>現金</td>
+					<td><button>取消</button></td>
 				</tr>
 			</tbody>
 			<tfoot>
@@ -91,6 +91,7 @@
 					<th>人數</th>
 					<th>費用</th>
 					<th>付款方式</th>
+					<th>取消</th>
 				</tr>
 			</tfoot>
 		</table>
@@ -98,12 +99,12 @@
 
 		<footer>
 		  <div class="row">
-			Copyright ID.
+			版權所有© 2020 澳門特別行政區政府　
 		  </div>
 		</footer>
 		<script>
 			$(document).ready(function() {
-				$('#example').DataTable();
+				$('#tickettable').DataTable();
 			} );
 		</script>
 	</body>
