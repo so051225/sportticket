@@ -70,6 +70,8 @@
 				
 					echo '<input type="hidden" id="thisDate" name="thisDate" value="' . $dateStr . '">';
 				?>
+				
+				<input type="hidden" id="cancelOid" name="cancelOid" value="">
 				<button id="create-ticket" class="btn btn-primary"><i class="fa fa-plus"></i> 新增</button>
 			</div>
 		</header>
@@ -125,6 +127,16 @@
 		  </div>
 		</footer>
 		<script>
+			function cancelOrder(elem, oid) {
+				var cancelOid = oid;
+				var r = confirm("確定取消!");
+				if (r == true) {
+					$.post("api/cancelOrder.php", {oid: cancelOid}, function(data, status){
+						location.reload(); 
+					});
+				}
+			}
+		
 			$(document).ready(function() {
 				var today = getToday();
 				console.log(today);
@@ -143,7 +155,15 @@
 							"width": "10%",
 							"render": function ( data, type, row, meta ) {								
 								url = encodeURI("receipt.php?oid=" + row['oid']);
-								return '<button class="btn btn-primary" onclick="window.open(\'' + url + '\', \'_blank\')"><i class="fa fa-print"></i> 列印</button>';
+								btnPrint = '<button type="button" class="btn btn-primary" onclick="window.open(\'' + url + '\', \'_blank\')"><i class="fa fa-print"></i></button>';							
+								
+								btnCancel = '<button type="button" class="btn btn-danger" onclick="cancelOrder(this, \'' + row['oid'] + '\')"><i class="fa fa-minus-square"></i></button>';
+								
+								if (row['order_status'] == 1) {
+									btnCancel = '';
+								}
+								
+								return '<div> ' + btnPrint + '   ' + btnCancel + '</div>';
 							}
 						},
 						{ 
