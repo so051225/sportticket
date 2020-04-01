@@ -63,12 +63,6 @@
 			}
 
 			function get_available_datetime() {
-				// let currentDate = new Date();
-				// let timeOption1 = formatDate(currentDate) + ' ' +
-				// 	currentDate.getHours() + ':' + '00' + ' - ' + (currentDate.getHours() + 1) + ':00';
-				// let timeOption2 = formatDate(currentDate) + ' ' +
-				// 	(currentDate.getHours() + 1) + ':' + '00' + ' - ' + (currentDate.getHours() + 2) + ':00';
-				// return [timeOption1, timeOption2];
 				let date = new Date();
 				let dateAddOneHour = new Date().addHours(1);
 				let dateAddTwoHour = new Date().addHours(2);
@@ -81,7 +75,7 @@
 				let option2TimeStart = dateAddOneHour.Format("yyyy-MM-dd hh:00");
 				let option2TimeEnd = dateAddTwoHour.Format("yyyy-MM-dd hh:00");
 
-				let abc =  {
+				return {
 					'option1': {
 						'label': labelOption1,
 						'start': option1TimeStart,
@@ -93,10 +87,7 @@
 						'end': option2TimeEnd
 					}
 				};
-				console.log(abc);
-				return abc;
 			}
-
 
 			function init_time_options() {
 				let options = get_available_datetime();
@@ -105,12 +96,12 @@
 				$('#time_option_1_end').val(options['option1']['end']);
 
 				$('#label_time_option_2').html(options['option2']['label']);
-				$('#time_option_2_start').val(options['option1']['start']);
-				$('#time_option_2_end').val(options['option1']['end']);
+				$('#time_option_2_start').val(options['option2']['start']);
+				$('#time_option_2_end').val(options['option2']['end']);
 			}
 
 			function init_court_list() {
-				$.getJSON( "http://localhost/sportticket/api/getCourtBySite.php?siteid=" + "<?php echo $config_siteid ?>" )
+				$.getJSON( "api/getCourtBySite.php?siteid=" + "<?php echo $config_siteid ?>" )
 					.done(function( data ) {
 						let list;
 						console.log(data);
@@ -123,6 +114,24 @@
 						var err = textStatus + ", " + error;
 						console.log( "Request Failed: " + err );
 				});
+			}
+
+			function validateForm() {
+
+				let MS_PER_MINUTE = 60000;
+				let FIVE_MINS = 5 * MS_PER_MINUTE;
+
+				let start_date = new Date($('#time_option_2_start').val());
+				let accept_date = new Date(start_date - FIVE_MINS);
+
+				if (new Date() > accept_date) {
+					return true;
+				}
+
+
+				$("#time_err_msg").addClass("alert alert-danger");
+				$("#time_err_msg").html(accept_date.Format("hh:mm") + " 後才可以租用");
+				return false;
 			}
 
 			$( document ).ready(function() {
@@ -164,7 +173,7 @@
 			</div>
 		</header>
 		<div class="container">
-	<form action="./api/postOrder.php" method="POST">
+	<form action="./api/postOrder.php" method="POST" onsubmit="return validateForm()">
 		<p>證件類型選擇:</p>
 		<div>
 			<input type="radio" id="id" name="id_type" value="ID" checked>
@@ -176,7 +185,7 @@
 		</div>
 
 		<div>
-			<input type="text" name="id_value" id="id_no" placeholder="請輸入證件號碼">
+			<input type="text" name="id_value" id="id_no" placeholder="請輸入證件號碼" required>
 		</div>
 		<hr>
 		<div>
@@ -186,7 +195,7 @@
 		<hr>
 		<div>
 			<label for="quantity">人數:</label>
-			<input type="number" id="quantity" name="quantity" min="1">
+			<input type="number" id="quantity" name="quantity" min="1" value="1">
 		</div>
 		<hr>
 		<div>
@@ -199,6 +208,7 @@
 			<label for="time_option_2" id="label_time_option_2"></label>
 			<input type="hidden" id="time_option_2_start" name="time_option_2_start">
 			<input type="hidden" id="time_option_2_end" name="time_option_2_end">
+			<div class=".d-none" role="alert" id="time_err_msg"></div>
 			<br>
 			<input type="hidden" id="pay_time" name="pay_time">
 		</div>
