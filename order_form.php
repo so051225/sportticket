@@ -123,13 +123,6 @@
 		</script>
 </head>
 <body>
-	<?php
-		// $datetime = new DateTime();
-		// $datetime->setTimezone(new DateTimeZone('Asia/Shanghai'));
-		// echo $datetime->format('Y-m-d H:i:s');
-		$var = 1;
-		echo sprintf("%04d", $var);
-	?>
 	<form action="./api/postOrder.php" method="POST">
 		<p>證件類型選擇:</p>
 		<div>
