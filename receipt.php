@@ -8,7 +8,7 @@ parse_str($_SERVER['QUERY_STRING'], $queries);
 
 $oid = date($queries['oid']);
 $view = new OrderView();
-$order = $view->get_order_by_id(1);
+$order = $view->get_order_by_id($oid);
 
 ?>
 <html>
