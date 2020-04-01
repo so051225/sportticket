@@ -3,7 +3,7 @@
 
 <?php 
 
-include(ROOT_PATH. 'db.php'); 
+include_once(ROOT_PATH. 'db.php'); 
 
 class CourtView {
 

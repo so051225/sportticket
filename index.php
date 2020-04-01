@@ -17,6 +17,9 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.css">-->
 		<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 		<link rel="stylesheet" href="css/main.css">
+		<!--<link rel="stylesheet" href="css/font.css">-->
+		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		
 		<title>Sport Ticket</title>
 		<script>
@@ -41,7 +44,7 @@
 				$siteName = $globalObj->get_sitename();
 				echo $siteName; 
 			?>
-			<button id="create-ticket">新增</button>
+			<button id="create-ticket" class="btn"><i class="fa fa-plus"></i> 新增</button>
 		  </div>
 		</header>
 
@@ -73,6 +76,7 @@
 		  <table id="tickettable" class="display cell-border" style="width:100%">
         <thead>
             <tr>
+				<th>操作</th>
                 <th>票號</th>
 				<th>類型</th>
 				<th>場號</th>
@@ -81,11 +85,12 @@
 				<th>人數</th>
 				<th>費用</th>
 				<th>付款方式</th>
-				<th>取消</th>
+				
             </tr>
         </thead>
         <tfoot>
             <tr>
+				<th>操作</th>
                 <th>票號</th>
 				<th>類型</th>
 				<th>場號</th>
@@ -93,8 +98,7 @@
 				<th>進場時間</th>
 				<th>人數</th>
 				<th>費用</th>
-				<th>付款方式</th>
-				<th>取消</th>
+				<th>付款方式</th>				
             </tr>
         </tfoot>
     </table>
@@ -112,8 +116,20 @@
 				// render js datatable
 				$('#tickettable').DataTable( {
 					"paging":   false,
+
 					"ajax": "api/order.php?date="+today ,
 					"columns": [
+						{
+							"class": "details-control",
+							"orderable": false,
+							"data": null,
+							"defaultContent": "",
+							"width": "10%",
+							"render": function ( data, type, row, meta ) {
+									
+								return '<button class="btn"><i class="fa fa-print"></i></button>';
+							}
+						},
 						{ "data": "order_no", "width": "10%" },
 						{ "data": "court_type", "width": "10%" },
 						{ "data": "court_no", "width": "10%" },
@@ -121,8 +137,7 @@
 						{ "data": "time_range_str", "width": "10%" },
 						{ "data": "people_count", "width": "10%" },
 						{ "data": "amount", "width": "10%" },
-						{ "data": "pay_method", "width": "15%" },
-						{ "data": "action", "width": "15%" }
+						{ "data": "pay_method", "width": "15%" },						
 					]
 				});
 				

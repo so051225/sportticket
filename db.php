@@ -31,6 +31,7 @@
 
 include_once('config.php'); 
 
+// https://codeshack.io/super-fast-php-mysql-database-class/
 class db{
     protected $connection;
 	protected $query;
