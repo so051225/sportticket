@@ -142,10 +142,10 @@
 				console.log(today);
 				
 				// render js datatable
-				$('#tickettable').DataTable( {
+				var table =  $('#tickettable').DataTable( {
 					"paging":   false,
 					"order": [[ 2, "desc" ]],
-					"ajax": "api/order.php?date="+today ,
+					"ajax": "api/order.php?date="+today ,					
 					"columns": [
 						{
 							"class": "details-control",
@@ -163,7 +163,7 @@
 									btnCancel = '';
 								}
 								
-								return '<div> ' + btnPrint + '   ' + btnCancel + '</div>';
+								return '<div style="margin: auto;text-align: center;"> ' + btnPrint + '   ' + btnCancel + '</div>';
 							}
 						},
 						{ 
