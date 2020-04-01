@@ -8,19 +8,10 @@
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 		
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-		<!--
-		<script src="js/jquery/external/jquery/jquery.js"></script>
-		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.css">-->
+
 		<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 		<link rel="stylesheet" href="css/main.css">
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-		<!--<link rel="stylesheet" href="css/font.css">-->
-		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		
 		<title>Sport Ticket</title>
@@ -42,6 +33,24 @@
 				}
 
 			}
+			
+			
+			function getPrintOid() {
+				
+				var elem = document.getElementById('thisPrintOid');
+				if (!!elem) {
+					var value = elem.value;
+				
+					if (!!value) {				
+						return value;
+					} else {					
+						return null;
+					}
+				} else {
+					return null;
+				}
+			}
+			
 		</script>
 	</head>
 	
@@ -59,7 +68,7 @@
 				</h5>
 				<?php
 					$queries = array();
-					parse_str($_SERVER['QUERY_STRING'], $queries);
+					parse_str($_SERVER['QUERY_STRING'], $queries);					
 					
 					if (array_key_exists('date', $queries)) {
 						$dateStr = date($queries['date']);
@@ -69,6 +78,11 @@
 					} 
 				
 					echo '<input type="hidden" id="thisDate" name="thisDate" value="' . $dateStr . '">';
+					
+					if (array_key_exists('print_oid', $queries)) {
+						$thisPrintOid = date($queries['print_oid']);
+						echo '<input type="hidden" id="thisPrintOid" name="thisPrintOid" value="' . $thisPrintOid . '">';
+					}
 				?>
 				
 				<input type="hidden" id="cancelOid" name="cancelOid" value="">
@@ -141,6 +155,8 @@
 				var today = getToday();
 				console.log(today);
 				
+				
+				
 				// render js datatable
 				var table =  $('#tickettable').DataTable( {
 					"paging":   false,
@@ -180,20 +196,11 @@
 				});
 				
 				// get court list
-				$.getJSON( "http://localhost/sportticket/api/getCourtBySite.php?siteid=1" )
-					.done(function( data ) {
-						console.log( data);
-						list = '<ul>';
-						$.each(data, function( i, item) {
-							list += "<li> " + item['court_no'] + '</li>';							
-						});
-						list += '</ul>';
-						// $('#court-list').html( list );
-					})
-					.fail(function( jqxhr, textStatus, error ) {
-						var err = textStatus + ", " + error;
-						console.log( "Request Failed: " + err );
-				});
+				var printOid = getPrintOid();
+				if (printOid != null) {
+					url = encodeURI("receipt.php?oid=" + printOid);
+					window.open( url, '_blank');
+				}
 			} );
 		</script>
 	</body>

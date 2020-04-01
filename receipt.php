@@ -20,7 +20,7 @@ $order = $view->get_order_by_id($oid);
 	<style type="text/css" media="print">
 	@page {
 		size: auto;   /* auto is the initial value */
-		margin: 8;  /* this affects the margin in the printer settings */
+		margin: 0 8;  /* this affects the margin in the printer settings */
 	}
 	</style>
 </head>
@@ -74,6 +74,8 @@ $order = $view->get_order_by_id($oid);
 	<script>
 		$(document).ready(function() {
 			window.print();
+			// setTimeout(print, 3000, 'print second time!');
+			// window.print();
 		});
 	</script>
 </body>

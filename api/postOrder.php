@@ -78,7 +78,7 @@ if ($cuid == NULL) {
 }
 $order->cuid = $cuid;
 $customer = $customer_view->get_customer_by_id($cuid);
-var_dump ($customer);
+//var_dump ($customer);
 
 // court
 $court_view = new CourtView();
@@ -95,7 +95,7 @@ if (is_valid_datetime($order->start_time) && is_valid_times($order->cuid, $datet
 	// var_dump("create order failed");
 }
 
-header("Location: /sportticket");
+header("Location: /sportticket/index.php");
 exit();
 
 ?>
