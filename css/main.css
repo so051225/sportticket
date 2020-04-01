@@ -10,16 +10,20 @@ body, nav, ul, li, p, h1, h2, h3 {
     box-sizing: border-box;
 }
 
+/*
 body > header,
 body > footer {
     background: #ffce25;
-}
+}*/
 
-.row {
+.myrow {
     width: 100%;
     max-width: 900px;
     margin: 0auto;
     padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 /* addition styles */
@@ -31,16 +35,17 @@ h1, p {
     margin-bottom: .5em;
 }
 
-/* custom */
+/* custom 
 .btn {
-  background-color: #e65100;
   border: none;
   color: white;
-  padding: 12px 16px;
+  padding: 10px 12px;
   font-size: 16px;
   cursor: pointer;
 }
 
+.btn-gre
+
 .btn:hover {
   background-color: #ff9800;
-}
+}*/

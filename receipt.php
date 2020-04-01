@@ -17,6 +17,12 @@ $order = $view->get_order_by_id(1);
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 	<link rel="stylesheet" href="css/main.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<style type="text/css" media="print">
+	@page {
+		size: auto;   /* auto is the initial value */
+		margin: 8;  /* this affects the margin in the printer settings */
+	}
+	</style>
 </head>
 <body>
 	<table style="border-collapse:collapse;border:none;">

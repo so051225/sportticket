@@ -17,6 +17,8 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.css">-->
 		<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 		<!--<link rel="stylesheet" href="css/font.css">-->
 		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -26,98 +28,111 @@
 			// handle form
 			
 			function getToday() {
-				var today = new Date();
-				var dd = String(today.getDate()).padStart(2, '0');
-				var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-				var yyyy = today.getFullYear();
-				return yyyy + '-' + mm + '-' + dd;
+				
+				var value = document.getElementById('thisDate').value;
+				
+				if (!!value) {				
+					return value;
+				} else {					
+					var today = new Date();
+					var dd = String(today.getDate()).padStart(2, '0');
+					var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+					var yyyy = today.getFullYear();
+					return yyyy + '-' + mm + '-' + dd;
+				}
+
 			}
 		</script>
 	</head>
 	
 	<body>
+		
 		<header>
-		  <div class="row">
-			<?php
-				include_once('global.php');				
-				$globalObj = new GlobalCommon();
-				$siteName = $globalObj->get_sitename();
-				echo $siteName; 
-			?>
-			<button id="create-ticket" class="btn"><i class="fa fa-plus"></i> 新增</button>
-		  </div>
+			<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+				<h5 class="my-0 mr-md-auto font-weight-normal">
+					<?php
+						include_once('global.php');				
+						$globalObj = new GlobalCommon();
+						$siteName = $globalObj->get_sitename();
+						echo $siteName; 
+					?>
+				</h5>
+				<?php
+					$queries = array();
+					parse_str($_SERVER['QUERY_STRING'], $queries);
+					
+					if (array_key_exists('date', $queries)) {
+						$dateStr = date($queries['date']);
+					} else {
+						$dateNow = new DateTime("now", new DateTimeZone('Asia/Hong_Kong') );
+						$dateStr = date_format($dateNow, 'Y-m-d');
+					} 
+				
+					echo '<input type="hidden" id="thisDate" name="thisDate" value="' . $dateStr . '">';
+				?>
+				<button id="create-ticket" class="btn btn-primary"><i class="fa fa-plus"></i> 新增</button>
+			</div>
 		</header>
 
 		<nav>
 		  <div class="row">
-
 			<div id='court-list'>				
 			</div>
 	
 			<div id="dialog-form" title="新增" style="display:none">
-			  <form>
-				<fieldset>
-				  <label for="name">Name</label>
-				  <input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">
-				  <label for="email">Email</label>
-				  <input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">
-				  <label for="password">Password</label>
-				  <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">
 			 
-				  <!-- Allow form submission with keyboard without duplicating the dialog button -->
-				  <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-				</fieldset>
-			  </form>
 			</div>
 		  </div>
 		</nav>
 
-		<div class="row">
-		  <table id="tickettable" class="display cell-border" style="width:100%">
-        <thead>
-            <tr>
-				<th>操作</th>
-                <th>票號</th>
-				<th>類型</th>
-				<th>場號</th>
-				<th>發票時間</th>
-				<th>進場時間</th>
-				<th>人數</th>
-				<th>費用</th>
-				<th>付款方式</th>
-				
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-				<th>操作</th>
-                <th>票號</th>
-				<th>類型</th>
-				<th>場號</th>
-				<th>發票時間</th>
-				<th>進場時間</th>
-				<th>人數</th>
-				<th>費用</th>
-				<th>付款方式</th>				
-            </tr>
-        </tfoot>
-    </table>
+		<div class="container">
+			 <table id="tickettable" class="display cell-border" style="width:100%">
+				<thead>
+					<tr>
+						<th>操作</th>
+						<th>狀態</th>
+						<th>票號</th>
+						<th>類型</th>
+						<th>場號</th>
+						<th>發票時間</th>
+						<th>進場時間</th>
+						<th>人數</th>
+						<th>費用</th>
+						<th>付款方式</th>
+						
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>操作</th>
+						<th>狀態</th>
+						<th>票號</th>
+						<th>類型</th>
+						<th>場號</th>
+						<th>發票時間</th>
+						<th>進場時間</th>
+						<th>人數</th>
+						<th>費用</th>
+						<th>付款方式</th>				
+					</tr>
+				</tfoot>
+			</table>
 		</div>
 
 		<footer>
-		  <div class="row">
-			版權所有© 2020 澳門特別行政區政府　
+		  <div class="row col-12 myrow">
+			<p class='text-center'> 版權所有© 2020 </p>
 		  </div>
 		</footer>
 		<script>
 			$(document).ready(function() {
 				var today = getToday();
-
+				console.log(today);
 				
 				// render js datatable
 				$('#tickettable').DataTable( {
 					"paging":   false,
-
+					"order": [[ 2, "desc" ]],
 					"ajax": "api/order.php?date="+today ,
 					"columns": [
 						{
@@ -126,15 +141,17 @@
 							"data": null,
 							"defaultContent": "",
 							"width": "10%",
-							"render": function ( data, type, row, meta ) {
-								
+							"render": function ( data, type, row, meta ) {								
 								url = encodeURI("receipt.php?oid=" + row['oid']);
-								return '<button class="btn" onclick="window.open(\'' + url + '\', \'_blank\')"><i class="fa fa-print"></i></button>';
+								return '<button class="btn btn-primary" onclick="window.open(\'' + url + '\', \'_blank\')"><i class="fa fa-print"></i> 列印</button>';
 							}
+						},
+						{ 
+							"data": "status_str", "width": "8%",
 						},
 						{ "data": "order_no", "width": "10%" },
 						{ "data": "court_type", "width": "10%" },
-						{ "data": "court_no", "width": "10%" },
+						{ "data": "court_no", "width": "5%" },
 						{ "data": "pay_time_str", "width": "15%" },
 						{ "data": "time_range_str", "width": "10%" },
 						{ "data": "people_count", "width": "10%" },
