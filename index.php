@@ -10,11 +10,37 @@
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
 		<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	
+
+		<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+		<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+		
+
 		<link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		
-		<title>Sport Ticket</title>
+		<?php
+			include_once('global.php');				
+			$globalObj = new GlobalCommon();
+			$siteName = $globalObj->get_sitename();
+			
+			$queries = array();
+			parse_str($_SERVER['QUERY_STRING'], $queries);					
+			
+			if (array_key_exists('date', $queries)) {
+				$dateStr = date($queries['date']);
+			} else {
+				$dateNow = new DateTime("now", new DateTimeZone('Asia/Hong_Kong') );
+				$dateStr = date_format($dateNow, 'Y-m-d');
+			} 
+					
+					
+			echo '<title>' . $siteName . ' ' . $dateStr . '</title>'; 
+		?>
+					
+		
 		<script>
 			// handle form
 			
@@ -60,23 +86,10 @@
 			<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
 				<h5 class="my-0 mr-md-auto font-weight-normal">
 					<?php
-						include_once('global.php');				
-						$globalObj = new GlobalCommon();
-						$siteName = $globalObj->get_sitename();
 						echo $siteName; 
 					?>
 				</h5>
-				<?php
-					$queries = array();
-					parse_str($_SERVER['QUERY_STRING'], $queries);					
-					
-					if (array_key_exists('date', $queries)) {
-						$dateStr = date($queries['date']);
-					} else {
-						$dateNow = new DateTime("now", new DateTimeZone('Asia/Hong_Kong') );
-						$dateStr = date_format($dateNow, 'Y-m-d');
-					} 
-				
+				<?php					
 					echo '<input type="hidden" id="thisDate" name="thisDate" value="' . $dateStr . '">';
 					
 					if (array_key_exists('print_oid', $queries)) {
@@ -155,13 +168,15 @@
 				var today = getToday();
 				console.log(today);
 				
-				
-				
 				// render js datatable
 				var table =  $('#tickettable').DataTable( {
 					"paging":   false,
 					"order": [[ 2, "desc" ]],
-					"ajax": "api/order.php?date="+today ,					
+					"ajax": "api/order.php?date="+today ,
+					dom: 'Bfrtip',
+					buttons: [
+						'excelHtml5'
+					],
 					"columns": [
 						{
 							"class": "details-control",
