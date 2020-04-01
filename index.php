@@ -21,6 +21,14 @@
 		<title>Sport Ticket</title>
 		<script>
 			// handle form
+			
+			function getToday() {
+				var today = new Date();
+				var dd = String(today.getDate()).padStart(2, '0');
+				var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+				var yyyy = today.getFullYear();
+				return yyyy + '-' + mm + '-' + dd;
+			}
 		</script>
 	</head>
 	
@@ -62,69 +70,34 @@
 		</nav>
 
 		<div class="row">
-		  <table id="tickettable" class="display" style="width:100%">
-			<thead>
-				<tr>
-					<th>票號</th>
-					<th>類型</th>
-					<th>場號</th>
-					<th>發票時間</th>
-					<th>進場時間</th>
-					<th>人數</th>
-					<th>費用</th>
-					<th>付款方式</th>
-					<th>取消</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>4741775</td>					
-					<td>羽毛球</td>
-					<td>A</td>
-					<td>08:46:15</td>
-					<td>2020-03-31 08:00~09:00</td>
-					<td>3</td>
-					<td>$20</td>
-					<td>現金</td>
-					<td><button>取消</button></td>
-				</tr>
-				<tr>
-					<td>4741775</td>					
-					<td>羽毛球</td>
-					<td>A</td>
-					<td>08:46:15</td>
-					<td>2020-03-31 08:00~09:00</td>
-					<td>3</td>
-					<td>$20</td>
-					<td>現金</td>
-					<td><button>取消</button></td>
-				</tr>
-				<tr>
-					<td>4741775</td>					
-					<td>羽毛球</td>
-					<td>A</td>
-					<td>08:46:15</td>
-					<td>2020-03-31 08:00~09:00</td>
-					<td>3</td>
-					<td>$20</td>
-					<td>現金</td>
-					<td><button>取消</button></td>
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<th>票號</th>
-					<th>類型</th>
-					<th>場號</th>
-					<th>發票時間</th>
-					<th>進場時間</th>
-					<th>人數</th>
-					<th>費用</th>
-					<th>付款方式</th>
-					<th>取消</th>
-				</tr>
-			</tfoot>
-		</table>
+		  <table id="tickettable" class="display cell-border" style="width:100%">
+        <thead>
+            <tr>
+                <th>票號</th>
+				<th>類型</th>
+				<th>場號</th>
+				<th>發票時間</th>
+				<th>進場時間</th>
+				<th>人數</th>
+				<th>費用</th>
+				<th>付款方式</th>
+				<th>取消</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>票號</th>
+				<th>類型</th>
+				<th>場號</th>
+				<th>發票時間</th>
+				<th>進場時間</th>
+				<th>人數</th>
+				<th>費用</th>
+				<th>付款方式</th>
+				<th>取消</th>
+            </tr>
+        </tfoot>
+    </table>
 		</div>
 
 		<footer>
@@ -134,8 +107,24 @@
 		</footer>
 		<script>
 			$(document).ready(function() {
+				var today = getToday();
+				
 				// render js datatable
-				$('#tickettable').DataTable();
+				$('#tickettable').DataTable( {
+					"paging":   false,
+					"ajax": "api/order.php?date="+today ,
+					"columns": [
+						{ "data": "order_no", "width": "10%" },
+						{ "data": "court_type", "width": "10%" },
+						{ "data": "court_no", "width": "10%" },
+						{ "data": "pay_time_str", "width": "15%" },
+						{ "data": "time_range_str", "width": "10%" },
+						{ "data": "people_count", "width": "10%" },
+						{ "data": "amount", "width": "10%" },
+						{ "data": "pay_method", "width": "15%" },
+						{ "data": "action", "width": "15%" }
+					]
+				});
 				
 				// get court list
 				$.getJSON( "http://localhost/sportticket/api/getCourtBySite.php?siteid=1" )
