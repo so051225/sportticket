@@ -90,9 +90,12 @@ if (is_valid_datetime($order->start_time) && is_valid_times($order->cuid, $datet
 	// create order
 	$order_view = new OrderView();
 	$order_view->post_order($order);
-	var_dump("create order success");
+	// var_dump("create order success");
 } else {
-	var_dump("create order failed");
+	// var_dump("create order failed");
 }
+
+header("Location: /sportticket");
+exit();
 
 ?>
