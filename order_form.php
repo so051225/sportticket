@@ -143,7 +143,7 @@
 						include_once('global.php');				
 						$globalObj = new GlobalCommon();
 						$siteName = $globalObj->get_sitename();
-						echo $siteName; 
+						echo $siteName . " - 新增票據"; 
 					?>
 				</h5>
 				<?php
@@ -161,7 +161,6 @@
 				?>
 				
 				<input type="hidden" id="cancelOid" name="cancelOid" value="">
-				<button id="create-ticket" class="btn btn-primary" onclick="window.location.href ='order_form.php'"><i class="fa fa-plus"></i> 新增</button>
 			</div>
 		</header>
 		<div class="container">
@@ -214,8 +213,10 @@
 			</select>
 		</div>
 		<hr>
-		<input type="submit" value="打印單據">
+		<button class="btn btn-primary" type="submit"><i class="fa fa-print"></i>確認</button>
 	</form>
+		<button class="btn btn-danger" onclick="window.location.href ='index.php'"><i class="fa fa-home"></i>返回</button>
+
 	</div>
 </body>
 </html>
