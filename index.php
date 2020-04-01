@@ -112,6 +112,7 @@
 		<script>
 			$(document).ready(function() {
 				var today = getToday();
+
 				
 				// render js datatable
 				$('#tickettable').DataTable( {
@@ -126,8 +127,9 @@
 							"defaultContent": "",
 							"width": "10%",
 							"render": function ( data, type, row, meta ) {
-									
-								return '<button class="btn"><i class="fa fa-print"></i></button>';
+								
+								url = encodeURI("receipt.php?oid=" + row['oid']);
+								return '<button class="btn" onclick="window.open(\'' + url + '\', \'_blank\')"><i class="fa fa-print"></i></button>';
 							}
 						},
 						{ "data": "order_no", "width": "10%" },
