@@ -152,7 +152,7 @@
 							"orderable": false,
 							"data": null,
 							"defaultContent": "",
-							"width": "10%",
+							"width": "12%",
 							"render": function ( data, type, row, meta ) {								
 								url = encodeURI("receipt.php?oid=" + row['oid']);
 								btnPrint = '<button type="button" class="btn btn-primary" onclick="window.open(\'' + url + '\', \'_blank\')"><i class="fa fa-print"></i></button>';							
@@ -170,9 +170,9 @@
 							"data": "status_str", "width": "8%",
 						},
 						{ "data": "order_no", "width": "8%" },
-						{ "data": "court_type", "width": "10%" },
+						{ "data": "court_type", "width": "8%" },
 						{ "data": "court_no", "width": "5%" },
-						{ "data": "pay_time_str", "width": "15%" },
+						{ "data": "pay_time_str", "width": "10%" },
 						{ "data": "time_range_str", "width": "10%" },
 						{ "data": "people_count", "width": "8%" },
 						{ "data": "amount", "width": "10%" },
