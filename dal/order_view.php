@@ -9,13 +9,12 @@
 			
 		public function get_order_list ($date) {
 			$db = new db();
-			
+
 			$query = self::$q . " and date(`tb_order`.`pay_time`) = ?";
 			
 			$orders = $db->query($query, $date)->fetchAll();
 			$db->close();
-			return $orders;
-			
+			return $orders;			
 		}
 		
 		public function get_order_by_id ($oid) {
@@ -27,7 +26,7 @@
 			$db->close();
 			return $order;
 		}
-		
+
 		public function cancel_order_by_id ($oid) {
 			
 			$db = new db();			
@@ -37,6 +36,41 @@
 			
 			$db->close();
 			return $flag;
+
+		public function post_order($data) {
+			$db = new db();
+			$order = $db->query('INSERT INTO tb_order(cuid,id_type,sid,cid,order_no,ac_date,start_time,end_time,pay_method,amount,pay_time,order_status,cancel_reason,people_count,site_name,court_name) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+				$data->cuid,
+				$data->id_type,
+				$data->sid,
+				$data->cid,
+				$data->order_no,
+				$data->ac_date,
+				$data->start_time,
+				$data->end_time,
+				$data->pay_method,
+				$data->amount,
+				$data->pay_time,
+				$data->order_status,
+				$data->cancel_reason,
+				$data->people_count,
+				$data->site_name,
+				$data->court_name
+			);
+			$db->close();
+
+			return $order;
+		}
+
+		public function get_record_count($cuid, $date) {
+			$db = new db();
+			$record = $db->query(
+				'SELECT * FROM tb_order WHERE cuid = ? AND ac_date = ?',
+				$cuid, $date
+			);
+			$numRows = $record->numRows();
+			$db->close();
+			return $numRows;
 		}
 	}
 ?>
