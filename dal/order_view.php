@@ -36,6 +36,7 @@
 			
 			$db->close();
 			return $flag;
+		}
 
 		public function post_order($data) {
 			$db = new db();
