@@ -152,7 +152,7 @@
 							"orderable": false,
 							"data": null,
 							"defaultContent": "",
-							"width": "12%",
+							"width": "10%",
 							"render": function ( data, type, row, meta ) {								
 								url = encodeURI("receipt.php?oid=" + row['oid']);
 								btnPrint = '<button type="button" class="btn btn-primary" onclick="window.open(\'' + url + '\', \'_blank\')"><i class="fa fa-print"></i></button>';							
@@ -161,9 +161,8 @@
 								
 								if (row['order_status'] == 1) {
 									btnCancel = '';
-								}
-								
-								return '<div style="margin: auto;text-align: center;"> ' + btnPrint + '   ' + btnCancel + '</div>';
+								}								
+								return '<div> ' + btnPrint + '   ' + btnCancel + '</div>';
 							}
 						},
 						{ 
