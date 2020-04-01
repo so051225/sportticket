@@ -30,3 +30,17 @@ ul {
 h1, p {
     margin-bottom: .5em;
 }
+
+/* custom */
+.btn {
+  background-color: #e65100;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ff9800;
+}
