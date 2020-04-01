@@ -128,16 +128,27 @@
 					return true;
 				}
 
-
 				$("#time_err_msg").addClass("alert alert-danger");
 				$("#time_err_msg").html(accept_date.Format("hh:mm") + " 後才可以租用");
 				return false;
 			}
 
+			function initAmount(siteid) {
+				let day = new Date().getDay();
+				let isWeekend = (day === 6) || (day === 0);
+				let amount = "20.0";
+				if (siteid == 1) {
+					amount = isWeekend == 0 || isWeekend == 6 ? "20.0" : "10.0";
+				} else {
+					amount = "20.0";
+				}
+				$("#ammount").html(amount);
+			}
+
 			$( document ).ready(function() {
 				init_time_options();
 				init_court_list();
-
+				initAmount();
 				$("form").submit(function(e) {
 					$("#pay_time").val(new Date().Format("yyyy-MM-dd hh:mm:ss"));
 				});
@@ -213,6 +224,11 @@
 			<input type="hidden" id="pay_time" name="pay_time">
 		</div>
 		<hr>
+
+		<div>
+			金額: <span id="ammount"></span>
+		</div>
+
 		<label for="pay_method">支付方式</label>
 			<select name="pay_method" id="pay_method">
 				<option value="CASH" selected="selected">現金</option>
@@ -222,6 +238,8 @@
 				<option value="QUICKPASS">銀聯閃付卡</option>
 			</select>
 		</div>
+
+
 		<hr>
 		<button class="btn btn-primary" type="submit"><i class="fa fa-print"></i>確認</button>
 	</form>
