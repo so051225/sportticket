@@ -285,7 +285,7 @@
 							<option value="MPay">MPay</option>
 							<option value="澳門通卡">澳門通卡</option>
 							<option value="雲閃付">雲閃付</option>
-							<option value="銀聯閃付卡">銀聯閃付卡</option>
+							<option value="銀聯閃付卡">閃付卡</option>
 							<option value="代金券">代金券</option>
 						</select>
 					</div>
