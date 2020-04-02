@@ -23,9 +23,16 @@
 		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		
+
 		<title>Order Form</title>
 
-		<?php include_once('global.php'); ?>
+
+		<?php
+			include_once('global.php');				
+			$globalObj = new GlobalCommon();
+			$siteName = $globalObj->get_sitename();
+			$siteId =  $globalObj->get_siteId();
+		?>
 
 		<script>
 			Date.prototype.Format = function (fmt) { //author: meizz
@@ -63,41 +70,77 @@
 			}
 
 			function get_available_datetime() {
+				// let date = new Date();
+				// let dateAddOneHour = new Date().addHours(1);
+				// let dateAddTwoHour = new Date().addHours(2);
+
+				// let labelOption1 = date.Format("yyyy-MM-dd hh:00") + ' - ' + dateAddOneHour.Format("hh:00");
+				// let labelOption2 = dateAddOneHour.Format("yyyy-MM-dd hh:00") + ' - ' + dateAddTwoHour.Format("hh:00");
+
+				// let option1TimeStart = date.Format("yyyy-MM-dd hh:00");
+				// let option1TimeEnd = dateAddOneHour.Format("yyyy-MM-dd hh:00");
+				// let option2TimeStart = dateAddOneHour.Format("yyyy-MM-dd hh:00");
+				// let option2TimeEnd = dateAddTwoHour.Format("yyyy-MM-dd hh:00");
+
+				// return {
+				// 	'option1': {
+				// 		'label': labelOption1,
+				// 		'start': option1TimeStart,
+				// 		'end': option1TimeEnd
+				// 	},
+				// 	'option2': {
+				// 		'label': labelOption2,
+				// 		'start': option2TimeStart,
+				// 		'end': option2TimeEnd
+				// 	}
+				// };
+
 				let date = new Date();
-				let dateAddOneHour = new Date().addHours(1);
-				let dateAddTwoHour = new Date().addHours(2);
+				let dateStr = date.Format("yyyy-MM-dd");
 
-				let labelOption1 = date.Format("yyyy-MM-dd hh:00") + ' - ' + dateAddOneHour.Format("hh:00");
-				let labelOption2 = dateAddOneHour.Format("yyyy-MM-dd hh:00") + ' - ' + dateAddTwoHour.Format("hh:00");
+				let hours = date.getHours();
+				let mins = date.getMinutes();
 
-				let option1TimeStart = date.Format("yyyy-MM-dd hh:00");
-				let option1TimeEnd = dateAddOneHour.Format("yyyy-MM-dd hh:00");
-				let option2TimeStart = dateAddOneHour.Format("yyyy-MM-dd hh:00");
-				let option2TimeEnd = dateAddTwoHour.Format("yyyy-MM-dd hh:00");
+				let start = hours;
+				let end = hours;
 
-				return {
-					'option1': {
-						'label': labelOption1,
-						'start': option1TimeStart,
-						'end': option1TimeEnd
-					},
-					'option2': {
-						'label': labelOption2,
-						'start': option2TimeStart,
-						'end': option2TimeEnd
-					}
-				};
+				if (mins > 50) {
+					start = hours + 1;
+					end = hours + 1;
+				}
+
+				let options = [];
+
+				for (var i = start; i <= end; i++) {					
+					let option_start_hour = i;
+					let option_end_hour = i+1;
+					let option_label =  dateStr + " " + option_start_hour + ":00 - " + option_end_hour + ":00";
+					options.push({'label':option_label, 'start':option_start_hour, 'end':option_end_hour});
+				}
+
+				return options;
 			}
 
 			function init_time_options() {
 				let options = get_available_datetime();
-				$('#label_time_option_1').html(options['option1']['label']);
-				$('#time_option_1_start').val(options['option1']['start']);
-				$('#time_option_1_end').val(options['option1']['end']);
+				console.log(options)
 
-				$('#label_time_option_2').html(options['option2']['label']);
-				$('#time_option_2_start').val(options['option2']['start']);
-				$('#time_option_2_end').val(options['option2']['end']);
+				let elem = $('#time_options');
+
+				let html = "";
+				options.forEach(function (item, index) {
+					let optionId = 'time_option_' + item['start'];
+					let checked = (index == 0)? 'checked': '';
+					html += '<input type="radio" id="' + optionId + '" name="time_option" value="' + optionId + '" ' + checked + '>';
+					html += '<label for="' + optionId + '" id="label_' + optionId + '">' +  item['label'] +  '</label>';
+					html += '<input type="hidden" id="' + optionId + '_end" name="' + optionId + '_end">';					
+					html += '<br>';
+
+					console.log(html)
+				});
+
+				// html += '<input type="hidden" id="pay_time" name="pay_time">';
+				elem.html(html);
 			}
 
 			function init_court_list() {
@@ -117,115 +160,137 @@
 			}
 
 			function validateForm() {
+				// let MS_PER_MINUTE = 60000;
+				// let TEN_MINS = 10 * MS_PER_MINUTE;
 
-				let MS_PER_MINUTE = 60000;
-				let FIVE_MINS = 5 * MS_PER_MINUTE;
+				// console.log($("time_option").val());
+				// // return false;
+				// if ($("time_option").val() !== "time_option_2") return false;
 
-				let start_date = new Date($('#time_option_2_start').val());
-				let accept_date = new Date(start_date - FIVE_MINS);
+				// let start_date = new Date($('#time_option_2_start').val());
+				// let accept_date = new Date(start_date - TEN_MINS);
 
-				if (new Date() > accept_date) {
-					return true;
+				// if (new Date() > accept_date) {
+				// 	return true;
+				// }
+
+				// $("#time_err_msg").addClass("alert alert-danger");
+				// $("#time_err_msg").html(accept_date.Format("hh:mm") + " 後才可以租用");
+				return true;
+			}
+
+			function initAmount(siteid) {
+				let day = new Date().getDay();
+				let isWeekend = (day === 6) || (day === 0);
+				let amount = "20.0";
+				if (siteid === 1) {
+					amount = isWeekend ? "20.0" : "10.0";
+				} else {
+					amount = "20.0";
 				}
-
-
-				$("#time_err_msg").addClass("alert alert-danger");
-				$("#time_err_msg").html(accept_date.Format("hh:mm") + " 後才可以租用");
-				return false;
+				$("#amount_field").html(amount);
+				$("#amount").val(amount);
 			}
 
 			$( document ).ready(function() {
 				init_time_options();
 				init_court_list();
-
-				$("form").submit(function(e) {
-					$("#pay_time").val(new Date().Format("yyyy-MM-dd hh:mm:ss"));
-				});
+				initAmount(<?php echo $siteId; ?>);
+				// $("form").submit(function(e) {
+				// 	$("#pay_time").val(new Date().Format("yyyy-MM-dd hh:mm:ss"));
+				// });
 			});
 		</script>
 </head>
 <body>
-<header>
-			<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-				<h5 class="my-0 mr-md-auto font-weight-normal">
-					<?php
-						include_once('global.php');				
-						$globalObj = new GlobalCommon();
-						$siteName = $globalObj->get_sitename();
-						echo $siteName . " - 新增票據"; 
-					?>
-				</h5>
-				<?php
-					$queries = array();
-					parse_str($_SERVER['QUERY_STRING'], $queries);
-					
-					if (array_key_exists('date', $queries)) {
-						$dateStr = date($queries['date']);
-					} else {
-						$dateNow = new DateTime("now", new DateTimeZone('Asia/Hong_Kong') );
-						$dateStr = date_format($dateNow, 'Y-m-d');
-					} 
-				
-					echo '<input type="hidden" id="thisDate" name="thisDate" value="' . $dateStr . '">';
+	<header>
+		<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+			<h5 class="my-0 mr-md-auto font-weight-normal">
+				<?php						
+					echo $siteName . " - 新增票據"; 
 				?>
+			</h5>
+			<?php
+				$queries = array();
+				parse_str($_SERVER['QUERY_STRING'], $queries);
 				
-				<input type="hidden" id="cancelOid" name="cancelOid" value="">
+				if (array_key_exists('date', $queries)) {
+					$dateStr = date($queries['date']);
+				} else {
+					$dateNow = new DateTime("now", new DateTimeZone('Asia/Hong_Kong') );
+					$dateStr = date_format($dateNow, 'Y-m-d');
+				} 
+			
+				echo '<input type="hidden" id="thisDate" name="thisDate" value="' . $dateStr . '">';
+			?>
+			
+			<input type="hidden" id="cancelOid" name="cancelOid" value="">
+		</div>
+	</header>
+	<div class="container">
+		<form action="./api/postOrder.php" method="POST" onsubmit="return validateForm()">
+			<p>證件類型選擇:</p>
+			<div>
+				<input type="radio" id="id" name="id_type" value="ID" checked>
+				<label for="id">身份證號碼</label><br>
+				<input type="radio" id="esport_id" name="id_type" value="ESPORT_ID">
+				<label for="esport_id">運動易會員</label><br>
+				<input type="radio" id="other_id" name="id_type" value="OTHER_ID">
+				<label for="other_id">其他</label>
 			</div>
-		</header>
-		<div class="container">
-	<form action="./api/postOrder.php" method="POST" onsubmit="return validateForm()">
-		<p>證件類型選擇:</p>
-		<div>
-			<input type="radio" id="id" name="id_type" value="ID" checked>
-			<label for="id">身份證號碼</label><br>
-			<input type="radio" id="esport_id" name="id_type" value="ESPORT_ID">
-			<label for="esport_id">運動易會員</label><br>
-			<input type="radio" id="other_id" name="id_type" value="OTHER_ID">
-			<label for="other_id">其他</label>
-		</div>
 
-		<div>
-			<input type="text" name="id_value" id="id_no" placeholder="請輸入證件號碼" required>
-		</div>
-		<hr>
-		<div>
-		<label for="courts">場地</label>
-			<select name="court_id" id="court_id"></select>
-		</div>
-		<hr>
-		<div>
-			<label for="quantity">人數:</label>
-			<input type="number" id="quantity" name="quantity" min="1" value="1">
-		</div>
-		<hr>
-		<div>
-			<input type="radio" id="time_option_1" name="time_option" value="time_option_1" checked>
-			<label for="time_option_1" id="label_time_option_1"></label>
-			<input type="hidden" id="time_option_1_start" name="time_option_1_start">
-			<input type="hidden" id="time_option_1_end" name="time_option_1_end">
-			<br>
-			<input type="radio" id="time_option_2" name="time_option" value="time_option_2">
-			<label for="time_option_2" id="label_time_option_2"></label>
-			<input type="hidden" id="time_option_2_start" name="time_option_2_start">
-			<input type="hidden" id="time_option_2_end" name="time_option_2_end">
-			<div class=".d-none" role="alert" id="time_err_msg"></div>
-			<br>
-			<input type="hidden" id="pay_time" name="pay_time">
-		</div>
-		<hr>
-		<label for="pay_method">支付方式</label>
-			<select name="pay_method" id="pay_method">
-				<option value="CASH" selected="selected">現金</option>
-				<option value="MPAY">Mpay</option>
-				<option value="MACAUPASS">澳門通卡</option>
-				<option value="UNIONPAY">雲閃付</option>
-				<option value="QUICKPASS">銀聯閃付卡</option>
-			</select>
-		</div>
-		<hr>
-		<button class="btn btn-primary" type="submit"><i class="fa fa-print"></i>確認</button>
-	</form>
-		<button class="btn btn-danger" onclick="window.location.href ='index.php'"><i class="fa fa-home"></i>返回</button>
+			<div>
+				<input type="text" name="id_value" id="id_no" placeholder="請輸入證件號碼" required>
+			</div>
+			<hr>
+			<div>
+			<label for="courts">場地:</label>
+				<select name="court_id" id="court_id"></select>
+			</div>
+			<hr>
+			<div>
+				<label for="quantity">人數:</label>
+				<input type="number" id="quantity" name="quantity" min="1" value="1">
+			</div>
+			<hr>
+			<!--<div>
+				<input type="radio" id="time_option_1" name="time_option" value="time_option_1" checked>
+				<label for="time_option_1" id="label_time_option_1"></label>
+				<input type="hidden" id="time_option_1_start" name="time_option_1_start">
+				<input type="hidden" id="time_option_1_end" name="time_option_1_end">
+				<br>
+				<input type="radio" id="time_option_2" name="time_option" value="time_option_2">
+				<label for="time_option_2" id="label_time_option_2"></label>
+				<input type="hidden" id="time_option_2_start" name="time_option_2_start">
+				<input type="hidden" id="time_option_2_end" name="time_option_2_end">
+				<div class=".d-none" role="alert" id="time_err_msg"></div>
+				<br>
+				<input type="hidden" id="pay_time" name="pay_time">
+			</div>-->
+			<div id='time_options'>
+			</div>
+			<hr>
+
+			<div>
+				金額: <span id="amount_field"></span>
+				<input type="hidden" id="amount" name="amount" value="">
+			</div>
+
+			<label for="pay_method">支付方式</label>
+				<select name="pay_method" id="pay_method">
+					<option value="CASH" selected="selected">現金</option>
+					<option value="MPAY">Mpay</option>
+					<option value="MACAUPASS">澳門通卡</option>
+					<option value="UNIONPAY">雲閃付</option>
+					<option value="QUICKPASS">銀聯閃付卡</option>
+					<option value="COUPON">代金券</option>
+				</select>
+			</div>
+
+			<hr>
+			<button class="btn btn-primary" type="submit"><i class="fa fa-print"></i>確認</button>
+		</form>
+			<button class="btn btn-danger" onclick="window.location.href ='index.php'"><i class="fa fa-home"></i>返回</button>
 
 	</div>
 </body>

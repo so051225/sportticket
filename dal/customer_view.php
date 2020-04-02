@@ -13,14 +13,14 @@
 			$sql = "";
 			switch ($id_type) {
 				case "ID":
-				$sql = "SELECT cuid FROM tb_customer WHERE id = ?";
-				break;
+					$sql = "SELECT cuid FROM tb_customer WHERE id = ?";
+					break;
 				case "ESPORT_ID":
-				$sql = "SELECT cuid FROM tb_customer WHERE esport_id = ?";
-				break;
+					$sql = "SELECT cuid FROM tb_customer WHERE esport_id = ?";
+					break;
 				case "OTHER_ID":
-				$sql = "SELECT cuid FROM tb_customer WHERE other_id = ?";
-				break;
+					$sql = "SELECT cuid FROM tb_customer WHERE other_id = ?";
+					break;
 				default:
 					$sql = "SELECT cuid FROM tb_customer WHERE id = ?";
 			}

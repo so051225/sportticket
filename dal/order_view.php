@@ -66,12 +66,27 @@
 		public function get_record_count($cuid, $date) {
 			$db = new db();
 			$record = $db->query(
-				'SELECT * FROM tb_order WHERE cuid = ? AND ac_date = ?',
+				'SELECT * FROM tb_order WHERE cuid = ? AND ac_date = ? AND order_status = 0',
 				$cuid, $date
 			);
 			$numRows = $record->numRows();
-			$db->close();
+			$db->close();			
 			return $numRows;
+		}
+
+		public function check_court_available($cid, $start_time) {
+			$db = new db();
+			$record = $db->query(
+				'SELECT * FROM tb_order WHERE cid = ? AND start_time = ? AND order_status = 0',
+				$cid, $start_time
+			);
+			$numRows = $record->numRows();
+			$db->close();
+			return $numRows == 0;
+		}
+
+		public function check_customer_limit($cuid, $start_time) {
+			return $this->get_record_count($cuid, $start_time) < 2;
 		}
 	}
 ?>
