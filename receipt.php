@@ -18,10 +18,28 @@ $order = $view->get_order_by_id($oid);
 	<link rel="stylesheet" href="css/main.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<style type="text/css" media="print">
-	@page {
-		size: auto;   /* auto is the initial value */
-		margin: 0 8;  /* this affects the margin in the printer settings */
-	}
+		@page {
+			size: auto;   /* auto is the initial value */
+			margin: 0 8;  /* this affects the margin in the printer settings */
+		}
+		.btn {
+			display: none;
+		}
+	</style>
+	<style type="text/css">
+		.btn {
+			border: #0062cc;
+			color: white;
+			background-color: #0069d9;
+			padding: 10px 12px;
+			font-size: 16px;
+			cursor: pointer;
+			margin: 4px;
+			width: 160px;
+		}
+		.btn:hover {
+			background-color: #00b3db;
+		}
 	</style>
 </head>
 <body>
@@ -72,12 +90,14 @@ identificação n.<sup>o</sup></span><span style="font-family:標楷體;">：</s
 		</tr>
 	  </tbody>
 	</table>
+	<button class="btn" onclick='window.print();'>列印</button>
 	<script>
 		$(document).ready(function() {
 			window.print();
 			// setTimeout(print, 3000, 'print second time!');
 			// window.print();
 		});
+		
 	</script>
 </body>
 </html>
