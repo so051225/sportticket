@@ -278,12 +278,12 @@
 
 			<label for="pay_method">支付方式</label>
 				<select name="pay_method" id="pay_method">
-					<option value="CASH" selected="selected">現金</option>
-					<option value="MPAY">Mpay</option>
-					<option value="MACAUPASS">澳門通卡</option>
-					<option value="UNIONPAY">雲閃付</option>
-					<option value="QUICKPASS">銀聯閃付卡</option>
-					<option value="COUPON">代金券</option>
+					<option value="現金" selected="selected">現金</option>
+					<option value="MPay">MPay</option>
+					<option value="澳門通卡">澳門通卡</option>
+					<option value="雲閃付">雲閃付</option>
+					<option value="銀聯閃付卡">銀聯閃付卡</option>
+					<option value="代金券">代金券</option>
 				</select>
 			</div>
 
