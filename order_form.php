@@ -131,7 +131,7 @@
 				options.forEach(function (item, index) {
 					let optionId = 'time_option_' + item['start'];
 					let checked = (index == 0)? 'checked': '';
-					html += '<input type="radio" id="' + optionId + '" name="time_option" value="' + optionId + '" ' + checked + '>';
+					html += '<input type="radio" id="' + optionId + '" name="time_option" value="' + optionId + '" ' + checked + '> ';
 					html += '<label for="' + optionId + '" id="label_' + optionId + '">' +  item['label'] +  '</label>';
 					html += '<input type="hidden" id="' + optionId + '_end" name="' + optionId + '_end">';					
 					html += '<br>';
@@ -243,6 +243,7 @@
 
 					<div>
 						<input type="text" name="id_value" id="id_no" placeholder="請輸入證件號碼" required>
+						<span style="color: red; font-size: 10px">不需要輸入括號</span>
 					</div>
 					<hr>
 					<div>
@@ -278,7 +279,7 @@
 						<input type="hidden" id="amount" name="amount" value="">
 					</div>
 
-					<label for="pay_method">支付方式</label>
+					<label for="pay_method">支付方式：</label>
 						<select name="pay_method" id="pay_method">
 							<option value="現金" selected="selected">現金</option>
 							<option value="MPay">MPay</option>

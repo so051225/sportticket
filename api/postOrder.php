@@ -75,9 +75,11 @@ if(!$is_error) {
 
 	// customer
 	$customer_view = new CustomerView();
-	$cuid = $customer_view->get_customerid($_POST['id_type'], $_POST['id_value']);
+
+	$id_value = trim($_POST['id_value']);
+	$cuid = $customer_view->get_customerid($_POST['id_type'], $id_value);
 	if ($cuid == NULL) {
-		$cuid = $customer_view->add_customer($_POST['id_type'], $_POST['id_value']);
+		$cuid = $customer_view->add_customer($_POST['id_type'], $id_value);
 	}
 	$order->cuid = $cuid;
 	$customer = $customer_view->get_customer_by_id($cuid);
