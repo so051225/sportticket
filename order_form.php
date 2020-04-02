@@ -243,7 +243,7 @@
 
 					<div>
 						<input type="text" name="id_value" id="id_no" placeholder="請輸入證件號碼" required>
-						<span style="color: red; font-size: 10px">不需要輸入括號</span>
+						<span style="color: red; font-size: 15px">不需要輸入括號</span>
 					</div>
 					<hr>
 					<div>
