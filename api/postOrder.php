@@ -7,7 +7,6 @@ include_once('../dal/customer_view.php');
 include_once('../dal/court_view.php');
 
 $common = new GlobalCommon();
-
 date_default_timezone_set('Asia/Shanghai');
 $datetime = new DateTime();
 $datetime->setTimezone(new DateTimeZone('Asia/Shanghai'));
@@ -66,8 +65,9 @@ if(!$is_error) {
 	// }
 
 	$order->pay_method = $_POST['pay_method'];
-	$order->amount = 20.00;
-	$order->pay_time = $_POST['pay_time'];
+	$order->amount = $_POST['amount'];
+	// $order->pay_time = $_POST['pay_time'];
+	$order->pay_time = $datetime->format('Y-m-d H:i:s');
 	$order->order_status = 0;
 	$order->cancel_reason = "";
 	$order->people_count = $_POST['quantity'];
@@ -82,11 +82,11 @@ if(!$is_error) {
 	$order->cuid = $cuid;
 	$customer = $customer_view->get_customer_by_id($cuid);
 
-	// check customer limit (2 hr)	
+	// check customer limit (2 hr)
 	$is_error =  !$order_view->check_customer_limit($cuid, $today);
 	
 	if ($is_error) {
-		array_push($errs, '錯誤: 用戶今天使用兩小時');
+		array_push($errs, '錯誤: 用戶今天已使用兩小時');
 	}
 	
 	if (!$is_error) {

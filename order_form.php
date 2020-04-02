@@ -139,7 +139,7 @@
 					console.log(html)
 				});
 
-				html += '<input type="hidden" id="pay_time" name="pay_time">';
+				// html += '<input type="hidden" id="pay_time" name="pay_time">';
 				elem.html(html);
 			}
 
@@ -188,108 +188,109 @@
 				} else {
 					amount = "20.0";
 				}
-				$("#ammount").html(amount);
+				$("#amount_field").html(amount);
+				$("#amount").val(amount);
 			}
 
 			$( document ).ready(function() {
 				init_time_options();
 				init_court_list();
 				initAmount(<?php echo $siteId; ?>);
-				$("form").submit(function(e) {
-					$("#pay_time").val(new Date().Format("yyyy-MM-dd hh:mm:ss"));
-				});
+				// $("form").submit(function(e) {
+				// 	$("#pay_time").val(new Date().Format("yyyy-MM-dd hh:mm:ss"));
+				// });
 			});
 		</script>
 </head>
 <body>
-<header>
-			<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-				<h5 class="my-0 mr-md-auto font-weight-normal">
-					<?php						
-						echo $siteName . " - 新增票據"; 
-					?>
-				</h5>
-				<?php
-					$queries = array();
-					parse_str($_SERVER['QUERY_STRING'], $queries);
-					
-					if (array_key_exists('date', $queries)) {
-						$dateStr = date($queries['date']);
-					} else {
-						$dateNow = new DateTime("now", new DateTimeZone('Asia/Hong_Kong') );
-						$dateStr = date_format($dateNow, 'Y-m-d');
-					} 
-				
-					echo '<input type="hidden" id="thisDate" name="thisDate" value="' . $dateStr . '">';
+	<header>
+		<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+			<h5 class="my-0 mr-md-auto font-weight-normal">
+				<?php						
+					echo $siteName . " - 新增票據"; 
 				?>
+			</h5>
+			<?php
+				$queries = array();
+				parse_str($_SERVER['QUERY_STRING'], $queries);
 				
-				<input type="hidden" id="cancelOid" name="cancelOid" value="">
+				if (array_key_exists('date', $queries)) {
+					$dateStr = date($queries['date']);
+				} else {
+					$dateNow = new DateTime("now", new DateTimeZone('Asia/Hong_Kong') );
+					$dateStr = date_format($dateNow, 'Y-m-d');
+				} 
+			
+				echo '<input type="hidden" id="thisDate" name="thisDate" value="' . $dateStr . '">';
+			?>
+			
+			<input type="hidden" id="cancelOid" name="cancelOid" value="">
+		</div>
+	</header>
+	<div class="container">
+		<form action="./api/postOrder.php" method="POST" onsubmit="return validateForm()">
+			<p>證件類型選擇:</p>
+			<div>
+				<input type="radio" id="id" name="id_type" value="ID" checked>
+				<label for="id">身份證號碼</label><br>
+				<input type="radio" id="esport_id" name="id_type" value="ESPORT_ID">
+				<label for="esport_id">運動易會員</label><br>
+				<input type="radio" id="other_id" name="id_type" value="OTHER_ID">
+				<label for="other_id">其他</label>
 			</div>
-		</header>
-		<div class="container">
-	<form action="./api/postOrder.php" method="POST" onsubmit="return validateForm()">
-		<p>證件類型選擇:</p>
-		<div>
-			<input type="radio" id="id" name="id_type" value="ID" checked>
-			<label for="id">身份證號碼</label><br>
-			<input type="radio" id="esport_id" name="id_type" value="ESPORT_ID">
-			<label for="esport_id">運動易會員</label><br>
-			<input type="radio" id="other_id" name="id_type" value="OTHER_ID">
-			<label for="other_id">其他</label>
-		</div>
 
-		<div>
-			<input type="text" name="id_value" id="id_no" placeholder="請輸入證件號碼" required>
-		</div>
-		<hr>
-		<div>
-		<label for="courts">場地:</label>
-			<select name="court_id" id="court_id"></select>
-		</div>
-		<hr>
-		<div>
-			<label for="quantity">人數:</label>
-			<input type="number" id="quantity" name="quantity" min="1" value="1">
-		</div>
-		<hr>
-		<!--<div>
-			<input type="radio" id="time_option_1" name="time_option" value="time_option_1" checked>
-			<label for="time_option_1" id="label_time_option_1"></label>
-			<input type="hidden" id="time_option_1_start" name="time_option_1_start">
-			<input type="hidden" id="time_option_1_end" name="time_option_1_end">
-			<br>
-			<input type="radio" id="time_option_2" name="time_option" value="time_option_2">
-			<label for="time_option_2" id="label_time_option_2"></label>
-			<input type="hidden" id="time_option_2_start" name="time_option_2_start">
-			<input type="hidden" id="time_option_2_end" name="time_option_2_end">
-			<div class=".d-none" role="alert" id="time_err_msg"></div>
-			<br>
-			<input type="hidden" id="pay_time" name="pay_time">
-		</div>-->
-		<div id='time_options'>
-		</div>
-		<hr>
+			<div>
+				<input type="text" name="id_value" id="id_no" placeholder="請輸入證件號碼" required>
+			</div>
+			<hr>
+			<div>
+			<label for="courts">場地:</label>
+				<select name="court_id" id="court_id"></select>
+			</div>
+			<hr>
+			<div>
+				<label for="quantity">人數:</label>
+				<input type="number" id="quantity" name="quantity" min="1" value="1">
+			</div>
+			<hr>
+			<!--<div>
+				<input type="radio" id="time_option_1" name="time_option" value="time_option_1" checked>
+				<label for="time_option_1" id="label_time_option_1"></label>
+				<input type="hidden" id="time_option_1_start" name="time_option_1_start">
+				<input type="hidden" id="time_option_1_end" name="time_option_1_end">
+				<br>
+				<input type="radio" id="time_option_2" name="time_option" value="time_option_2">
+				<label for="time_option_2" id="label_time_option_2"></label>
+				<input type="hidden" id="time_option_2_start" name="time_option_2_start">
+				<input type="hidden" id="time_option_2_end" name="time_option_2_end">
+				<div class=".d-none" role="alert" id="time_err_msg"></div>
+				<br>
+				<input type="hidden" id="pay_time" name="pay_time">
+			</div>-->
+			<div id='time_options'>
+			</div>
+			<hr>
 
-		<div>
-			金額: <span id="ammount"></span>
-		</div>
+			<div>
+				金額: <span id="amount_field"></span>
+				<input type="hidden" id="amount" name="amount" value="">
+			</div>
 
-		<label for="pay_method">支付方式</label>
-			<select name="pay_method" id="pay_method">
-				<option value="CASH" selected="selected">現金</option>
-				<option value="MPAY">Mpay</option>
-				<option value="MACAUPASS">澳門通卡</option>
-				<option value="UNIONPAY">雲閃付</option>
-				<option value="QUICKPASS">銀聯閃付卡</option>
-				<option value="COUPON">代金券</option>
-			</select>
-		</div>
+			<label for="pay_method">支付方式</label>
+				<select name="pay_method" id="pay_method">
+					<option value="CASH" selected="selected">現金</option>
+					<option value="MPAY">Mpay</option>
+					<option value="MACAUPASS">澳門通卡</option>
+					<option value="UNIONPAY">雲閃付</option>
+					<option value="QUICKPASS">銀聯閃付卡</option>
+					<option value="COUPON">代金券</option>
+				</select>
+			</div>
 
-
-		<hr>
-		<button class="btn btn-primary" type="submit"><i class="fa fa-print"></i>確認</button>
-	</form>
-		<button class="btn btn-danger" onclick="window.location.href ='index.php'"><i class="fa fa-home"></i>返回</button>
+			<hr>
+			<button class="btn btn-primary" type="submit"><i class="fa fa-print"></i>確認</button>
+		</form>
+			<button class="btn btn-danger" onclick="window.location.href ='index.php'"><i class="fa fa-home"></i>返回</button>
 
 	</div>
 </body>
