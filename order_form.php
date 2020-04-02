@@ -228,7 +228,7 @@
 		</div>
 	</header>
 	<div class="container">
-		<form action="./api/postOrder.php" method="POST" onsubmit="return validateForm()">
+		<form action="./api/postOrder.php" method="POST" onsubmit="return validateForm()" autocomplete="off">
 			<p>證件類型選擇:</p>
 			<div>
 				<input type="radio" id="id" name="id_type" value="ID" checked>
