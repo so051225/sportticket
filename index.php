@@ -98,7 +98,7 @@
 				?>
 				
 				<input type="hidden" id="cancelOid" name="cancelOid" value="">
-				<button id="create-ticket" class="btn btn-primary" onclick="window.location.href ='order_form.php'"><i class="fa fa-plus"></i> 新增</button>
+				<button id="create-ticket" class="btn btn-success" onclick="window.location.href ='order_form.php'"><i class="fa fa-plus"></i> 新增</button>
 			</div>
 		</header>
 

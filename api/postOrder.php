@@ -31,7 +31,7 @@ $order_view = new OrderView();
 $is_error = !$order_view -> check_court_available($cid, $start_time_str);
 
 if ($is_error) {
-	array_push($errs, '錯誤: 場地時間已佔用');
+	array_push($errs, '錯誤: 場地時間已佔用。');
 }
 
 
@@ -86,7 +86,7 @@ if(!$is_error) {
 	$is_error =  !$order_view->check_customer_limit($cuid, $today);
 	
 	if ($is_error) {
-		array_push($errs, '錯誤: 用戶今天已使用兩小時');
+		array_push($errs, '錯誤: 用戶今天已使用兩小時。');
 	}
 	
 	if (!$is_error) {
@@ -118,12 +118,13 @@ if(!$is_error) {
 </head>
 <body>
 	<div class='container'>
-		<?php 
-			foreach ($errs as $value) {
-			  	echo $value;
-			}
-		?>
-		<br>
+		<div class="alert alert-danger" role="alert">
+			<?php 
+				foreach ($errs as $value) {
+					echo $value;
+				}
+			?>
+		</div>
 		<button class="btn btn-danger" onclick="window.location.href ='/sportticket/index.php'"><i class="fa fa-home"></i>返回</button>
 	</div>
 </body>
