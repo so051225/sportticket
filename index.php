@@ -114,7 +114,7 @@
 		</nav>
 
 		<div class="container">
-			 <table id="tickettable" class="display cell-border" style="width:100%">
+			 <table id="tickettable" class="display cell-border " style="width:100%">
 				<thead>
 					<tr>
 						<th>操作</th>
@@ -180,7 +180,7 @@
 						{
 							"class": "details-control",
 							"orderable": false,
-							"data": null,
+							"data": null,							
 							"defaultContent": "",
 							"width": "10%",
 							"render": function ( data, type, row, meta ) {								
@@ -189,14 +189,14 @@
 								
 								// onclick="window.open(\'' + url + '\', \'_blank\')"
 								
-								btnPrint = '<button type="button" class="btn btn-primary" onclick="' + btnPrintOnClick + '"><i class="fa fa-print"></i></button>';							
+								btnPrint = '<button type="button" class="btn btn-primary mr-1 mb-1" onclick="' + btnPrintOnClick + '"><i class="fa fa-print"></i></button>';							
 								
-								btnCancel = '<button type="button" class="btn btn-danger" onclick="cancelOrder(this, \'' + row['oid'] + '\')"><i class="fa fa-minus-square"></i></button>';
+								btnCancel = '<button type="button" class="btn btn-danger mb-1" onclick="cancelOrder(this, \'' + row['oid'] + '\')"><i class="fa fa-minus-square"></i></button>';
 								
 								if (row['order_status'] == 1) {
 									btnCancel = '';
 								}								
-								return '<div> ' + btnPrint + '   ' + btnCancel + '</div>';
+								return '<div> ' + btnPrint + btnCancel + '</div>';
 							}
 						},
 						{ 
@@ -207,9 +207,9 @@
 						{ "data": "court_no", "width": "5%" },
 						{ "data": "pay_time_str", "width": "10%" },
 						{ "data": "time_range_str", "width": "10%" },
-						{ "data": "people_count", "width": "8%" },
-						{ "data": "amount", "width": "10%" },
-						{ "data": "pay_method", "width": "10%" },						
+						{ "data": "people_count", "width": "5%" },
+						{ "data": "amount", "width": "5%" },
+						{ "data": "pay_method", "width": "5%" },						
 					]
 				});
 				
