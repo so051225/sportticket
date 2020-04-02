@@ -100,9 +100,9 @@ if(!$is_error) {
 		$order_view = new OrderView();
 		$insertedOrderOid = $order_view->post_order($order);
 		
-		$qry = 'print_oid=' . $insertedOrderOid;
+		$qry = 'oid=' . $insertedOrderOid;
 		
-		header("Location: /sportticket/index.php?$qry");
+		header("Location: /sportticket/receipt.php?$qry");
 		exit();
 	}
 }
@@ -123,14 +123,16 @@ if(!$is_error) {
 </head>
 <body>
 	<div class='container'>
-		<div class="alert alert-danger" role="alert">
+		
+		<div class="alert alert-danger m-2" role="alert">
 			<?php 
 				foreach ($errs as $value) {
 					echo $value;
 				}
 			?>
 		</div>
-		<button class="btn btn-danger" onclick="window.location.href ='/sportticket/index.php'"><i class="fa fa-home"></i>返回</button>
+		
+		<button class="btn btn-danger m-2" onclick="window.location.href ='/sportticket/index.php'"><i class="fa fa-home"></i>返回</button>
 	</div>
 </body>
 </html>

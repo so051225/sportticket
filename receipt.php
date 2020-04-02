@@ -38,7 +38,10 @@ $order = $view->get_order_by_id($oid);
 			width: 160px;
 		}
 		.btn:hover {
-			background-color: #00b3db;
+			background-color: #e0e0e0;
+		}
+		.btn-back {
+			background-color: #dc3545;
 		}
 	</style>
 </head>
@@ -91,6 +94,7 @@ identificação n.<sup>o</sup></span><span style="font-family:標楷體;">：</s
 	  </tbody>
 	</table>
 	<button class="btn" onclick='window.print();'>列印</button>
+	<button class="btn btn-back" onclick='window.location.href ="index.php";'>返回</button>
 	<script>
 		$(document).ready(function() {
 			window.print();

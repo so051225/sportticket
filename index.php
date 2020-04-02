@@ -185,7 +185,11 @@
 							"width": "10%",
 							"render": function ( data, type, row, meta ) {								
 								url = encodeURI("receipt.php?oid=" + row['oid']);
-								btnPrint = '<button type="button" class="btn btn-primary" onclick="window.open(\'' + url + '\', \'_blank\')"><i class="fa fa-print"></i></button>';							
+								btnPrintOnClick = "window.location.href='" + url +"'";
+								
+								// onclick="window.open(\'' + url + '\', \'_blank\')"
+								
+								btnPrint = '<button type="button" class="btn btn-primary" onclick="' + btnPrintOnClick + '"><i class="fa fa-print"></i></button>';							
 								
 								btnCancel = '<button type="button" class="btn btn-danger" onclick="cancelOrder(this, \'' + row['oid'] + '\')"><i class="fa fa-minus-square"></i></button>';
 								
