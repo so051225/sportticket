@@ -35,8 +35,7 @@
 				$dateNow = new DateTime("now", new DateTimeZone('Asia/Hong_Kong') );
 				$dateStr = date_format($dateNow, 'Y-m-d');
 			} 
-					
-					
+			
 			echo '<title>' . $siteName . ' ' . $dateStr . '</title>'; 
 		?>
 					
