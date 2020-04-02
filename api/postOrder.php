@@ -96,8 +96,11 @@ if(!$is_error) {
 		$order->court_name = $court == NULL ? "" : $court['court_no'];
 
 		$order_view = new OrderView();
-		$order_view->post_order($order);
-		header("Location: /sportticket/index.php");
+		$insertedOrderOid = $order_view->post_order($order);
+		
+		$qry = 'print_oid=' . $insertedOrderOid;
+		
+		header("Location: /sportticket/index.php?$qry");
 		exit();
 	}
 }

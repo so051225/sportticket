@@ -212,8 +212,8 @@
 				// open print
 				var printOid = getPrintOid();
 				if (printOid != null) {
-					//url = encodeURI("receipt.php?oid=" + printOid);
-					//window.open( url, '_blank');
+					url = encodeURI("receipt.php?oid=" + printOid);
+					window.open( url, '_blank');
 				}
 			} );
 		</script>

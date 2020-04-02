@@ -64,9 +64,12 @@
 				$data->site_name,
 				$data->court_name
 			);
-			$db->close();
-
-			return $order;
+			
+			$oid = $db->lastInsertID();
+			
+			$db->close();			
+		
+			return $oid;
 		}
 
 		public function get_record_count($cuid, $date) {
