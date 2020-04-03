@@ -91,12 +91,17 @@
 				return label;
 			}
 
+			function onChange(obj) {
+				var time_option = obj.value;
+				init_court_list(time_option);
+			}
+
 			function init_time_options(hours) {
 				var list = "";
 				hours.forEach(function (hour, index) {
 					var optionId = 'time_option_' + hour;
 					var checked = (index == 0)? 'checked': '';
-					list += '<input type="radio" id="time_option_' + hour + '" name="time_option" value="' + hour + '" ' + checked + '> ';
+					list += '<input onchange="onChange(this)" type="radio" id="time_option_' + hour + '" name="time_option" value="' + hour + '" ' + checked + '> ';
 					list += '<label for="' + hour + '" id="label_' + hour + '">' +  get_label(hour) +  '</label>';
 					list += '<input type="hidden" id="' + hour + '_end" name="' + hour + '_end">';					
 					list += '<br>';
@@ -111,11 +116,11 @@
 				$.getJSON( API_GET_AVILABLE_COURT ).done(function( hour_courts ) {
 					// ui
 					var html = "";
-
-					if (hour_courts.length == 0) {
-						html = '現在沒有可租用場地';
+					if (!hour_courts || !hour_courts[hour] || hour_courts[hour].length == 0) {
+						html = '<span style="color: red; font-size: 15px;">沒有可租用場地</span>';
 					} else {
-						
+						//<select name="court_id" id="court_id"></select>
+						html += '<select name="court_id" id="court_id">';
 						courts = hour_courts[hour];						
 						courts.forEach(function (court, index) {
 							var selected = (index == 0)? 'selected' : ''; 
@@ -124,13 +129,12 @@
 							
 							html += optionStr;
 						});
+						html += '</select>';
 
-					}
-					
+					}	
 					$('#court_id').html(html);
-					
-					
-				}).fail(function( jqxhr, textStatus, error ) {
+				})
+				.fail(function( jqxhr, textStatus, error ) {
 						var err = textStatus + ", " + error;
 						console.log( "Request Failed: " + err );
 				});
@@ -145,12 +149,7 @@
 					.fail(function( jqxhr, textStatus, error ) {
 						var err = textStatus + ", " + error;
 						console.log( "Request Failed: " + err );
-				});
-
-				$('#time_options').change(function() {
-					var time_option = $(this).val();
-					init_court_list(time_option);
-				});
+				});		
 			}
 
 			function validataForm() {
@@ -175,17 +174,6 @@
 						var err = textStatus + ", " + error;
 						console.log( "Request Failed: " + err );
 				});
-
-				// var day = new Date().getDay();
-				// var isWeekend = (day === 6) || (day === 0);
-				// var amount = "20.0";
-				// if (siteid === 1) {
-				// 	amount = isWeekend ? "20.0" : "10.0";
-				// } else {
-				// 	amount = "20.0";
-				// }
-				// $("#amount_field").html(amount);
-				// $("#amount").val(amount);
 			}
 
 			$( document ).ready(function() {
@@ -240,8 +228,7 @@
 					<hr>
 					<div>
 						<label for="courts">場地：</label>
-						<select name="court_id" id="court_id"></select>
-						<p id="courts_hint" style="color: red; font-size: 15px;"></p>
+						<div id='court_id'></div>
 					</div>
 					<hr>
 					<div>
