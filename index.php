@@ -5,21 +5,17 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 		
 		<!-- js datatable -->
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-		
-		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-
-		<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-	
-
-		<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-		<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
-		
-
+		<link rel="stylesheet" href="css/jquery.dataTables.min.css">
 		<link rel="stylesheet" href="css/main.css">
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">		
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/bootstrap.min.css">		
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/jquery.dataTables.min.js"></script>
+		<script src="js/dataTables.buttons.min.js"></script>
+		<script src="js/jszip.min.js"></script>
+		<script src="js/buttons.html5.min.js"></script>
+		
 		
 		<?php
 			include_once('global.php');				
@@ -98,7 +94,7 @@
 				?>
 				
 				<input type="hidden" id="cancelOid" name="cancelOid" value="">
-				<button id="create-ticket" class="btn btn-success" onclick="window.location.href ='order_form.php'"><i class="fa fa-plus"></i> 新增</button>
+				<button id="create-ticket" class="btn btn-success" onclick="window.location.href ='order_form.php'">新增</button>
 			</div>
 		</header>
 
@@ -189,9 +185,9 @@
 								
 								// onclick="window.open(\'' + url + '\', \'_blank\')"
 								
-								btnPrint = '<button type="button" class="btn btn-primary mr-1 mb-1" onclick="' + btnPrintOnClick + '"><i class="fa fa-print"></i></button>';							
+								btnPrint = '<button type="button" class="btn btn-primary mr-1 mb-1 btn-sm" onclick="' + btnPrintOnClick + '">列印</button>';							
 								
-								btnCancel = '<button type="button" class="btn btn-danger mb-1" onclick="cancelOrder(this, \'' + row['oid'] + '\')"><i class="fa fa-minus-square"></i></button>';
+								btnCancel = '<button type="button" class="btn btn-danger mb-1 btn-sm" onclick="cancelOrder(this, \'' + row['oid'] + '\')">取消</button>';
 								
 								if (row['order_status'] == 1) {
 									btnCancel = '';

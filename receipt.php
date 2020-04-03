@@ -16,7 +16,7 @@ $order = $view->get_order_by_id($oid);
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 	<link rel="stylesheet" href="css/main.css">
-	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script src="js/jquery-3.3.1.js"></script>
 	<style type="text/css" media="print">
 		@page {
 			size: auto;   /* auto is the initial value */
