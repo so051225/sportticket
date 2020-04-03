@@ -53,8 +53,7 @@ $order = $view->get_order_by_id($oid);
 	</style>
 </head>
 <body>
-	<button class="btn" onclick='window.print();'>列印</button>
-	<button class="btn btn-back" onclick='window.location.href ="index.php";'>返回</button>
+	
 	<table style="margin-left:5.4pt;border-collapse:collapse;border:none;">
     <tbody>
         <tr>
@@ -93,6 +92,8 @@ $order = $view->get_order_by_id($oid);
         </tr>
     </tbody>
 </table>
+	<button class="btn" onclick='window.print();'>列印</button>
+	<button class="btn btn-back" onclick='window.location.href ="index.php";'>返回</button>
 	<script>
 		$(document).ready(function() {
 			window.print();
