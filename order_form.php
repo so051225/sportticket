@@ -4,28 +4,13 @@
 	<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 		
-		<!-- js datatable -->
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-		
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-		<!--
-		<script src="js/jquery/external/jquery/jquery.js"></script>
-		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.css">-->
 		<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 		<link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-		<!--<link rel="stylesheet" href="css/font.css">-->
-		
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		
-
 		<title>Order Form</title>
-
 
 		<?php
 			include_once('global.php');				
@@ -35,14 +20,14 @@
 		?>
 
 		<script>
-			Date.prototype.Format = function (fmt) { //author: meizz
+			Date.prototype.Format = function (fmt) {
 				var o = {
 					"M+": this.getMonth() + 1,
 					"d+": this.getDate(),
 					"h+": this.getHours(),
 					"m+": this.getMinutes(),
 					"s+": this.getSeconds(),
-					"q+": Math.floor((this.getMonth() + 3) / 3), //season
+					"q+": Math.floor((this.getMonth() + 3) / 3),
 					"S": this.getMilliseconds()
 				};
 				if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
@@ -69,120 +54,124 @@
 				return [year, month, day].join('-');
 			}
 
+			/*
 			function get_available_datetime() {
-				// let date = new Date();
-				// let dateAddOneHour = new Date().addHours(1);
-				// let dateAddTwoHour = new Date().addHours(2);
 
-				// let labelOption1 = date.Format("yyyy-MM-dd hh:00") + ' - ' + dateAddOneHour.Format("hh:00");
-				// let labelOption2 = dateAddOneHour.Format("yyyy-MM-dd hh:00") + ' - ' + dateAddTwoHour.Format("hh:00");
+				var date = new Date();
+				var dateStr = date.Format("yyyy-MM-dd");
 
-				// let option1TimeStart = date.Format("yyyy-MM-dd hh:00");
-				// let option1TimeEnd = dateAddOneHour.Format("yyyy-MM-dd hh:00");
-				// let option2TimeStart = dateAddOneHour.Format("yyyy-MM-dd hh:00");
-				// let option2TimeEnd = dateAddTwoHour.Format("yyyy-MM-dd hh:00");
+				var hours = date.getHours();
+				var mins = date.getMinutes();
 
-				// return {
-				// 	'option1': {
-				// 		'label': labelOption1,
-				// 		'start': option1TimeStart,
-				// 		'end': option1TimeEnd
-				// 	},
-				// 	'option2': {
-				// 		'label': labelOption2,
-				// 		'start': option2TimeStart,
-				// 		'end': option2TimeEnd
-				// 	}
-				// };
-
-				let date = new Date();
-				let dateStr = date.Format("yyyy-MM-dd");
-
-				let hours = date.getHours();
-				let mins = date.getMinutes();
-
-				let start = hours;
-				let end = hours;
+				var start = hours;
+				var end = hours;
 
 				if (mins > 50) {
 					start = hours + 1;
 					end = hours + 1;
 				}
 
-				let options = [];
+				var options = [];
 
 				for (var i = start; i <= end; i++) {					
-					let option_start_hour = i;
-					let option_end_hour = i+1;
-					let option_label =  dateStr + " " + option_start_hour + ":00 - " + option_end_hour + ":00";
+					var option_start_hour = i;
+					var option_end_hour = i+1;
+					var option_label =  dateStr + " " + option_start_hour + ":00 - " + option_end_hour + ":00";
 					options.push({'label':option_label, 'start':option_start_hour, 'end':option_end_hour});
 				}
 
 				return options;
+			}*/
+
+			function get_label(hour) {
+				var start = (hour.length < 2) ? '0' + hour : hour;
+				var end = parseInt(hour) + 1;
+				var date = new Date();
+				var label = date.Format("yyyy-MM-dd");
+
+				label = label + " " + start + ":00 - " + end + ":00";
+				return label;
 			}
 
-			function init_time_options() {
-				let options = get_available_datetime();
-				console.log(options)
-
-				let elem = $('#time_options');
-
-				let html = "";
-				options.forEach(function (item, index) {
-					let optionId = 'time_option_' + item['start'];
-					let checked = (index == 0)? 'checked': '';
-					html += '<input type="radio" id="' + optionId + '" name="time_option" value="' + optionId + '" ' + checked + '> ';
-					html += '<label for="' + optionId + '" id="label_' + optionId + '">' +  item['label'] +  '</label>';
-					html += '<input type="hidden" id="' + optionId + '_end" name="' + optionId + '_end">';					
-					html += '<br>';
-
-					console.log(html)
+			function init_time_options(hours) {
+				var list = "";
+				hours.forEach(function (hour, index) {
+					var optionId = 'time_option_' + hour;
+					var checked = (index == 0)? 'checked': '';
+					list += '<input type="radio" id="time_option_' + hour + '" name="time_option" value="' + hour + '" ' + checked + '> ';
+					list += '<label for="' + hour + '" id="label_' + hour + '">' +  get_label(hour) +  '</label>';
+					list += '<input type="hidden" id="' + hour + '_end" name="' + hour + '_end">';					
+					list += '<br>';
 				});
-
-				// html += '<input type="hidden" id="pay_time" name="pay_time">';
-				elem.html(html);
+				$('#time_options').html( list );
 			}
 
-			function init_court_list() {
-				$.getJSON( "api/getCourtBySite.php?siteid=" + "<?php echo $config_siteid ?>" )
-					.done(function( data ) {
-						let list;
-						console.log(data);
-						$.each(data, function( i, item) {
-							list += '<option value="' + item['cid']  + '">' + item['court_no'] + '</option>'						
+			function init_court_list(hour) {
+
+				var API_GET_COURTS = "/sportticket/api/getCourtBySite.php?siteid=" + "<?php echo $config_siteid ?>";
+				var API_CHECK_COURT_AVAILABLE = "/sportticket/api/checkCourtAvailable.php?hour=" + hour + "&cid=";
+
+				$.getJSON( API_GET_COURTS )
+					.done(function( courts ) {
+
+						$('#court_id').empty();
+
+						$.each(courts, function( i, court ) {
+							$.getJSON( API_CHECK_COURT_AVAILABLE + court['cid'])
+								.done(function ( isAvailable ) {
+									if (isAvailable) {
+										$('#court_id').append('<option value="' + court['cid']  + '">' + court['court_no'] + '</option>');
+									}
+								})
+								.fail(function( jqxhr, textStatus, error ) {
+									var err = textStatus + ", " + error;
+									console.log( "Check Court Available Failed: " + err );
+								});
 						});
-						$('#court_id').html( list );
 					})
 					.fail(function( jqxhr, textStatus, error ) {
 						var err = textStatus + ", " + error;
 						console.log( "Request Failed: " + err );
 				});
+
+				$( document ).ajaxStop(function(){
+					if( $('#court_id').children('option').length === 0 ) {
+						$('#court_id').hide();
+						$('#courts_hint').html("現在沒有可租用場地");
+						$('#submit_btn').prop('disabled', true);;
+					}
+				});
 			}
 
-			function validateForm() {
-				// let MS_PER_MINUTE = 60000;
-				// let TEN_MINS = 10 * MS_PER_MINUTE;
+			function init_by_hours() {
+				$.getJSON( "/sportticket/api/getAvailableHours.php" )
+					.done(function( hours ) {
+						init_time_options(hours);
+						init_court_list(hours[0]);
+					})
+					.fail(function( jqxhr, textStatus, error ) {
+						var err = textStatus + ", " + error;
+						console.log( "Request Failed: " + err );
+				});
 
-				// console.log($("time_option").val());
-				// // return false;
-				// if ($("time_option").val() !== "time_option_2") return false;
+				$('#time_options').change(function() {
+					var time_option = $(this).val();
+					init_court_list(time_option);
+				});
+			}
 
-				// let start_date = new Date($('#time_option_2_start').val());
-				// let accept_date = new Date(start_date - TEN_MINS);
-
-				// if (new Date() > accept_date) {
-				// 	return true;
-				// }
-
-				// $("#time_err_msg").addClass("alert alert-danger");
-				// $("#time_err_msg").html(accept_date.Format("hh:mm") + " 後才可以租用");
-				return true;
+			function validataForm() {
+				if (confirm('本場地是預約場，**必須確定**場次沒有已預約！')) {
+					return true;
+				} else {
+					return false;
+				}
 			}
 
 			function initAmount(siteid) {
-				let day = new Date().getDay();
-				let isWeekend = (day === 6) || (day === 0);
-				let amount = "20.0";
+				var day = new Date().getDay();
+				var isWeekend = (day === 6) || (day === 0);
+				var amount = "20.0";
 				if (siteid === 1) {
 					amount = isWeekend ? "20.0" : "10.0";
 				} else {
@@ -193,12 +182,8 @@
 			}
 
 			$( document ).ready(function() {
-				init_time_options();
-				init_court_list();
+				init_by_hours();
 				initAmount(<?php echo $siteId; ?>);
-				// $("form").submit(function(e) {
-				// 	$("#pay_time").val(new Date().Format("yyyy-MM-dd hh:mm:ss"));
-				// });
 			});
 		</script>
 </head>
@@ -230,7 +215,7 @@
 	<div class="container">
 		<div class="card bg-default">
 			<div class="card-body">
-				<form id="order_form" class="form-group" action="./api/postOrder.php" method="POST" onsubmit="return validateForm()" autocomplete="off">
+				<form id="order_form" class="form-group" action="./api/postOrder.php" method="POST" onsubmit="return validataForm()" autocomplete="off">
 					<p>證件類型選擇：</p>
 					<div>
 						<input type="radio" id="id" name="id_type" value="ID" checked>
@@ -243,42 +228,30 @@
 
 					<div>
 						<input type="text" name="id_value" id="id_no" placeholder="請輸入證件號碼" required>
-						<span style="color: red; font-size: 15px">不需要輸入括號</span>
+						<span style="color: red; font-size: 15px;">不需要輸入括號</span>
 					</div>
 					<hr>
 					<div>
-					<label for="courts">場地：</label>
+						<label for="courts">場地：</label>
 						<select name="court_id" id="court_id"></select>
+						<p id="courts_hint" style="color: red; font-size: 15px;"></p>
 					</div>
 					<hr>
+					<div>
+						<label for="time_options">場次：</label>
+						<div id='time_options'></div>
+					</div>
+					<hr>
+
 					<div>
 						<label for="quantity">人數：</label>
 						<input type="number" id="quantity" name="quantity" min="1" value="1">
 					</div>
 					<hr>
-					<!--<div>
-						<input type="radio" id="time_option_1" name="time_option" value="time_option_1" checked>
-						<label for="time_option_1" id="label_time_option_1"></label>
-						<input type="hidden" id="time_option_1_start" name="time_option_1_start">
-						<input type="hidden" id="time_option_1_end" name="time_option_1_end">
-						<br>
-						<input type="radio" id="time_option_2" name="time_option" value="time_option_2">
-						<label for="time_option_2" id="label_time_option_2"></label>
-						<input type="hidden" id="time_option_2_start" name="time_option_2_start">
-						<input type="hidden" id="time_option_2_end" name="time_option_2_end">
-						<div class=".d-none" role="alert" id="time_err_msg"></div>
-						<br>
-						<input type="hidden" id="pay_time" name="pay_time">
-					</div>-->
-					<div id='time_options'>
-					</div>
-					<hr>
-
 					<div>
 						金額： <span id="amount_field"></span>
 						<input type="hidden" id="amount" name="amount" value="">
 					</div>
-
 					<label for="pay_method">支付方式：</label>
 						<select name="pay_method" id="pay_method">
 							<option value="現金" selected="selected">現金</option>
@@ -291,7 +264,7 @@
 					</div>
 				</form>		
 			</div>
-			<button class="btn btn-primary m-2" type="submit" form="order_form"><i class="fa fa-print"></i> 確認</button>
+			<button class="btn btn-primary m-2" type="submit" form="order_form" id="submit_btn"><i class="fa fa-print"></i> 確認</button>
 			<button class="btn btn-danger m-2" onclick="window.location.href ='index.php'"><i class="fa fa-home"></i> 返回</button>
 		</div>
 	</div>
