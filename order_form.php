@@ -106,6 +106,17 @@
 				$('#time_options').html( list );
 			}
 
+			function sort_options(listId) {
+				var selectList = $(listId + ' option');
+				selectList.sort(function(a,b){
+					a = a.value;
+					b = b.value;
+
+					return a-b;
+				});
+				$(listId).html(selectList);
+			}
+
 			function init_court_list(hour) {
 
 				var API_GET_COURTS = "/sportticket/api/getCourtBySite.php?siteid=" + "<?php echo $config_siteid ?>";
@@ -115,12 +126,12 @@
 					.done(function( courts ) {
 
 						$('#court_id').empty();
-
-						$.each(courts, function( i, court ) {
+						courts.forEach(function (court, index) {
 							$.getJSON( API_CHECK_COURT_AVAILABLE + court['cid'])
 								.done(function ( isAvailable ) {
 									if (isAvailable) {
-										$('#court_id').append('<option value="' + court['cid']  + '">' + court['court_no'] + '</option>');
+										var reservedStr = court['is_reserved'] == 0 ? "（預約場）" : "";
+										$('#court_id').append('<option value="' + court['cid']  + '">' + court['court_no'] + reservedStr + '</option>');
 									}
 								})
 								.fail(function( jqxhr, textStatus, error ) {
@@ -139,6 +150,8 @@
 						$('#court_id').hide();
 						$('#courts_hint').html("現在沒有可租用場地");
 						$('#submit_btn').prop('disabled', true);;
+					} else {
+						sort_options('#court_id');
 					}
 				});
 			}
@@ -161,11 +174,14 @@
 			}
 
 			function validataForm() {
-				if (confirm('本場地是預約場，**必須確定**場次沒有已預約！')) {
-					return true;
-				} else {
-					return false;
+				if ($('#court_id option:selected').text().indexOf("預約場") != -1) {
+					if (confirm('本場地是預約場，**必須確定**場次沒有已預約！')) {
+						return true;
+					} else {
+						return false;
+					}
 				}
+				return true;
 			}
 
 			function initAmount(siteid) {

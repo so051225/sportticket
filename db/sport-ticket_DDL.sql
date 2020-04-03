@@ -27,8 +27,9 @@ CREATE TABLE `sport_ticket`.`tb_court` (
     `sid` int(11) NOT NULL COMMENT 'site id',
     `display_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'display name',
     `court_no` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'court number',
-    `fee_weekday` decimal(10,2) NOT NULL DEFAULT 0 COMMENT 'fee for weekday',
-    `fee_weekend` decimal(10,2) NOT NULL DEFAULT 0 COMMENT 'fee for weekend',
+    -- `fee_weekday` decimal(10,2) NOT NULL DEFAULT 0 COMMENT 'fee for weekday',
+    -- `fee_weekend` decimal(10,2) NOT NULL DEFAULT 0 COMMENT 'fee for weekend',
+    `is_reserved` tinyint(4) NOT NULL DEFAULT 0 COMMENT '(0 - reserved, 1 - not reserved)',
     PRIMARY KEY (`cid`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
