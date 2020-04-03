@@ -183,16 +183,27 @@
 			}
 
 			function initAmount(siteid) {
-				var day = new Date().getDay();
-				var isWeekend = (day === 6) || (day === 0);
-				var amount = "20.0";
-				if (siteid === 1) {
-					amount = isWeekend ? "20.0" : "10.0";
-				} else {
-					amount = "20.0";
-				}
-				$("#amount_field").html(amount);
-				$("#amount").val(amount);
+
+				$.getJSON( "/sportticket/api/getSiteAmount.php" )
+					.done(function( amount ) {
+						$("#amount_field").html(amount);
+						$("#amount").val(amount);
+					})
+					.fail(function( jqxhr, textStatus, error ) {
+						var err = textStatus + ", " + error;
+						console.log( "Request Failed: " + err );
+				});
+
+				// var day = new Date().getDay();
+				// var isWeekend = (day === 6) || (day === 0);
+				// var amount = "20.0";
+				// if (siteid === 1) {
+				// 	amount = isWeekend ? "20.0" : "10.0";
+				// } else {
+				// 	amount = "20.0";
+				// }
+				// $("#amount_field").html(amount);
+				// $("#amount").val(amount);
 			}
 
 			$( document ).ready(function() {
