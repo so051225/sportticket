@@ -8,7 +8,6 @@
 		<link rel="stylesheet" href="css/jquery.dataTables.min.css">
 		<link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" href="css/bootstrap.min.css">		
-		<link rel="stylesheet" href="css/font-awesome.min.css">
 		
 		<script src="js/jquery-3.3.1.js"></script>
 		<script src="js/jquery.dataTables.min.js"></script>
