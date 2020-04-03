@@ -103,54 +103,36 @@
 				});
 				$('#time_options').html( list );
 			}
-
-			function sort_options(listId) {
-				var selectList = $(listId + ' option');
-				selectList.sort(function(a,b){
-					a = a.value;
-					b = b.value;
-
-					return a-b;
-				});
-				$(listId).html(selectList);
-			}
-
+			
 			function init_court_list(hour) {
 
-				var API_GET_COURTS = "/sportticket/api/getCourtBySite.php?siteid=" + "<?php echo $config_siteid ?>";
-				var API_CHECK_COURT_AVAILABLE = "/sportticket/api/checkCourtAvailable.php?hour=" + hour + "&cid=";
+				var API_GET_AVILABLE_COURT = "/sportticket/api/getAvailableCourt.php?siteid=" + "<?php echo $config_siteid ?>";
+				
+				$.getJSON( API_GET_AVILABLE_COURT ).done(function( hour_courts ) {
+					// ui
+					var html = "";
 
-				$.getJSON( API_GET_COURTS )
-					.done(function( courts ) {
-
-						$('#court_id').empty();
+					if (hour_courts.length == 0) {
+						html = '現在沒有可租用場地';
+					} else {
+						
+						courts = hour_courts[hour];						
 						courts.forEach(function (court, index) {
-							$.getJSON( API_CHECK_COURT_AVAILABLE + court['cid'])
-								.done(function ( isAvailable ) {
-									if (isAvailable) {
-										var reservedStr = court['is_reserved'] == 0 ? "（預約場）" : "";
-										$('#court_id').append('<option value="' + court['cid']  + '">' + court['court_no'] + reservedStr + '</option>');
-									}
-								})
-								.fail(function( jqxhr, textStatus, error ) {
-									var err = textStatus + ", " + error;
-									console.log( "Check Court Available Failed: " + err );
-								});
+							var selected = (index == 0)? 'selected' : ''; 
+							var reservedStr = court['is_reserved'] == 0 ? "（預約場）" : "";
+							var optionStr = '<option ' + selected + ' value="' + court['cid']  + '">' + court['court_no'] + reservedStr + '</option>';
+							
+							html += optionStr;
 						});
-					})
-					.fail(function( jqxhr, textStatus, error ) {
+
+					}
+					
+					$('#court_id').html(html);
+					
+					
+				}).fail(function( jqxhr, textStatus, error ) {
 						var err = textStatus + ", " + error;
 						console.log( "Request Failed: " + err );
-				});
-
-				$( document ).ajaxStop(function(){
-					if( $('#court_id').children('option').length === 0 ) {
-						$('#court_id').hide();
-						$('#courts_hint').html("現在沒有可租用場地");
-						$('#submit_btn').prop('disabled', true);;
-					} else {
-						sort_options('#court_id');
-					}
 				});
 			}
 
