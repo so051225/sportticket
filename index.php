@@ -7,7 +7,7 @@
 		<!-- js datatable -->
 		<link rel="stylesheet" href="css/jquery.dataTables.min.css">
 		<link rel="stylesheet" href="css/main.css">
-		<link rel="stylesheet" href="css/bootstrap.min.css">		
+		<link rel="stylesheet" href="css/bootstrap.min.css">			
 		
 		<script src="js/jquery-3.3.1.js"></script>
 		<script src="js/jquery.dataTables.min.js"></script>
@@ -93,7 +93,7 @@
 				?>
 				
 				<input type="hidden" id="cancelOid" name="cancelOid" value="">
-				<button id="create-ticket" class="btn btn-success m-1" onclick="window.location.href ='order_form.php'">新增</button>
+				<button id="create-ticket" class="btn btn-success m-1" onclick="window.location.href ='order_form.php'">+ 新增</button>
 			</div>
 		</header>
 
