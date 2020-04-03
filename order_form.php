@@ -258,8 +258,8 @@
 					</div>
 				</form>		
 			</div>
-			<button class="btn btn-primary m-2" type="submit" form="order_form" id="submit_btn"><i class="fa fa-print"></i> 確認</button>
-			<button class="btn btn-danger m-2" onclick="window.location.href ='index.php'"><i class="fa fa-home"></i> 返回</button>
+			<button class="btn btn-primary m-2" type="submit" form="order_form" id="submit_btn">確認</button>
+			<button class="btn btn-danger m-2" onclick="window.location.href ='index.php'">返回</button>
 		</div>
 	</div>
 </body>
