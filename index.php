@@ -151,7 +151,7 @@
 		<script>
 			function cancelOrder(elem, oid) {
 				var cancelOid = oid;
-				var r = confirm("確定取消!");
+				var r = confirm("確定取消票據?");
 				if (r == true) {
 					$.post("api/cancelOrder.php", {oid: cancelOid}, function(data, status){
 						location.reload(); 

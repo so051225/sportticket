@@ -31,10 +31,10 @@ $order = $view->get_order_by_id($oid);
 			border: #0062cc;
 			color: white;
 			background-color: #0069d9;
-			padding: 10px 12px;
+			padding: 8px 10px;
 			font-size: 16px;
 			cursor: pointer;
-			margin: 4px;
+			margin: 3px;
 			width: 160px;
 		}
 		.btn:hover {
@@ -46,6 +46,8 @@ $order = $view->get_order_by_id($oid);
 	</style>
 </head>
 <body>
+	<button class="btn" onclick='window.print();'>列印</button>
+	<button class="btn btn-back" onclick='window.location.href ="index.php";'>返回</button>
 	<table style="border-collapse:collapse;border:none;">
 	  <tbody>
 		<tr>
@@ -93,8 +95,7 @@ identificação n.<sup>o</sup></span><span style="font-family:標楷體;">：</s
 		</tr>
 	  </tbody>
 	</table>
-	<button class="btn" onclick='window.print();'>列印</button>
-	<button class="btn btn-back" onclick='window.location.href ="index.php";'>返回</button>
+	
 	<script>
 		$(document).ready(function() {
 			window.print();
