@@ -195,7 +195,7 @@
 							}
 						},
 						{ 
-							"data": "status_str", "width": "8%",
+							"data": "status_str", "width": "5%",
 						},
 						{ "data": "order_no", "width": "8%" },
 						{ "data": "court_type", "width": "8%" },
