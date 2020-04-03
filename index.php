@@ -184,9 +184,9 @@
 								
 								// onclick="window.open(\'' + url + '\', \'_blank\')"
 								
-								btnPrint = '<button type="button" class="btn btn-primary mr-1 mb-1 btn-sm" onclick="' + btnPrintOnClick + '">列印</button>';							
+								btnPrint = '<button type="button" class="btn btn-primary m-1 btn-sm" onclick="' + btnPrintOnClick + '">列印</button>';							
 								
-								btnCancel = '<button type="button" class="btn btn-danger mb-1 btn-sm" onclick="cancelOrder(this, \'' + row['oid'] + '\')">取消</button>';
+								btnCancel = '<button type="button" class="btn btn-danger m-1 btn-sm" onclick="cancelOrder(this, \'' + row['oid'] + '\')">取消</button>';
 								
 								if (row['order_status'] == 1) {
 									btnCancel = '';
