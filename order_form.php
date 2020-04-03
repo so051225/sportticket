@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="css/main.css">
 		<link rel="stylesheet" href="css/bootstrap.min.css">		
 		
-		<title>Order Form</title>
+		<title>新增票據</title>
 
 		<?php
 			include_once('global.php');				
