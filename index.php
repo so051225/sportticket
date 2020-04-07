@@ -24,14 +24,30 @@
 			$queries = array();
 			parse_str($_SERVER['QUERY_STRING'], $queries);					
 			
+			// date
 			if (array_key_exists('date', $queries)) {
 				$dateStr = date($queries['date']);
 			} else {
-				$dateNow = new DateTime("now", new DateTimeZone('Asia/Hong_Kong') );
-				$dateStr = date_format($dateNow, 'Y-m-d');
-			} 
+				$dateStr = $globalObj->get_today();
+			}
 			
-			echo '<title>' . $siteName . ' ' . $dateStr . '</title>'; 
+			// isMonthStr
+			if (array_key_exists('ismonth', $queries)) {
+				$isMonthStr = $queries['ismonth'];				
+				if('Y' !== $isMonthStr) {
+					$isMonthStr =  'N';
+				}
+			} else {
+				$isMonthStr = 'N';
+			}
+			
+			
+			if ($isMonthStr === 'N')
+				$siteNameStr = $siteName . ' (' . $dateStr . ')'; 
+			else
+				$siteNameStr = $siteName . ' (過去三十日記錄)'; 
+			
+			echo '<title>' . $siteNameStr . '</title>';
 		?>
 					
 		
@@ -40,20 +56,27 @@
 			
 			function getToday() {
 				
-				var value = document.getElementById('thisDate').value;
-				
+				var value = document.getElementById('thisDate').value;				
 				if (!!value) {				
 					return value;
-				} else {					
+				} else {
 					var today = new Date();
 					var dd = String(today.getDate()).padStart(2, '0');
 					var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 					var yyyy = today.getFullYear();
 					return yyyy + '-' + mm + '-' + dd;
 				}
-
 			}
 			
+			function getIsMonth() {
+				var value = document.getElementById('isMonth').value;
+				
+				if (!!value) {				
+					return value;
+				} else {
+					return 'N';
+				}
+			}
 			
 			function getPrintOid() {
 				
@@ -80,11 +103,12 @@
 			<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
 				<h5 class="my-0 mr-md-auto font-weight-normal">
 					<?php
-						echo $siteName; 
+						echo $siteNameStr; 
 					?>
 				</h5>
 				<?php					
 					echo '<input type="hidden" id="thisDate" name="thisDate" value="' . $dateStr . '">';
+					echo '<input type="hidden" id="isMonth" name="isMonth" value="' . $isMonthStr . '">';
 					
 					if (array_key_exists('print_oid', $queries)) {
 						$thisPrintOid = date($queries['print_oid']);
@@ -93,7 +117,13 @@
 				?>
 				
 				<input type="hidden" id="cancelOid" name="cancelOid" value="">
-				<button id="create-ticket" class="btn btn-success m-1" onclick="window.location.href ='order_form.php'">+ 新增</button>
+				
+				<?php if ($isMonthStr == 'N'): ?>
+					<button id="create-ticket" class="btn btn-success m-1" onclick="window.location.href ='order_form.php'">+ 新增</button>
+					<button id="create-ticket" class="btn btn-primary m-1" onclick="window.location.href ='index.php?ismonth=Y'">過往三十日記錄</button>
+				<?php else: ?>
+					<button id="create-ticket" class="btn btn-danger m-1" onclick="window.location.href ='/sportticket'">返回</button>
+				<?php endif; ?>
 			</div>
 		</header>
 
@@ -127,16 +157,16 @@
 				</thead>
 				<tfoot>
 					<tr>
-						<th>操作</th>
-						<th>狀態</th>
-						<th>票號</th>
-						<th>類型</th>
-						<th>場號</th>
-						<th>發票時間</th>
-						<th>進場時間</th>
-						<th>人數</th>
-						<th>費用</th>
-						<th>付款方式</th>				
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>				
 					</tr>
 				</tfoot>
 			</table>
@@ -160,17 +190,50 @@
 		
 			$(document).ready(function() {
 				var today = getToday();
-				console.log(today);
+				var isMonth = getIsMonth();
+				console.log('today :' + today);
+				console.log('isMonth :' + isMonth);
+				
+				var api = "api/order.php?date=" + today;
+				if (isMonth === 'Y')
+					api +="&ismonth=Y"
 				
 				// render js datatable
 				var table =  $('#tickettable').DataTable( {
 					"paging":   false,
 					"order": [[ 2, "desc" ]],
-					"ajax": "api/order.php?date="+today ,
+					"ajax": api ,
+					'bom': true,
 					dom: 'Bfrtip',
 					buttons: [
-						'excelHtml5'
+						'csv','excelHtml5'
 					],
+					"footerCallback": function ( row, data, start, end, display ) {
+						var api = this.api(), data;
+						
+						// Remove the formatting to get integer data for summation
+						var intVal = function ( i ) {
+							return typeof i === 'string' ?
+								i.replace(/[\$,]/g, '')*1 :
+								typeof i === 'number' ?
+									i : 0;
+						};
+						
+						var total = 0;
+						
+						if (data.length > 0) {
+							console.log(data);
+							for (var i = 0; i < data.length; i++) {
+								if (data[i]['order_status'] === 1) {
+									total += intVal(data[i]['amount']);
+								}
+							}
+						}
+											
+						$( api.column( 8 ).footer() ).html(
+							'合計:' + total
+						);
+					},
 					"columns": [
 						{
 							"class": "details-control",
@@ -184,9 +247,13 @@
 								
 								// onclick="window.open(\'' + url + '\', \'_blank\')"
 								
-								btnPrint = '<button type="button" class="btn btn-primary m-1 btn-sm" onclick="' + btnPrintOnClick + '">列印</button>';							
-								
-								btnCancel = '<button type="button" class="btn btn-danger m-1 btn-sm" onclick="cancelOrder(this, \'' + row['oid'] + '\')">取消</button>';
+								<?php if ($isMonthStr == 'N'): ?>
+									btnPrint = '<button type="button" class="btn btn-primary m-1 btn-sm" onclick="' + btnPrintOnClick + '">列印</button>';									
+									btnCancel = '<button type="button" class="btn btn-danger m-1 btn-sm" onclick="cancelOrder(this, \'' + row['oid'] + '\')">取消</button>';
+								<?php else: ?>
+									btnPrint = '';
+									btnCancel = '';
+								<?php endif;?>
 								
 								if (row['order_status'] == 1) {
 									btnCancel = '';
@@ -203,7 +270,7 @@
 						{ "data": "pay_time_str", "width": "10%" },
 						{ "data": "time_range_str", "width": "10%" },
 						{ "data": "people_count", "width": "5%" },
-						{ "data": "amount", "width": "5%" },
+						{ "data": "amount", "width": "8%" },
 						{ "data": "pay_method", "width": "5%" },						
 					]
 				});
@@ -214,6 +281,22 @@
 					url = encodeURI("receipt.php?oid=" + printOid);
 					//window.open( url, '_blank');
 				}
+				
+				/*var data = table.columns( 8 ).data(); // fee
+				console.log(data);
+				
+				var total = 0;
+				console.log(data);
+				if (!!data) {
+					data.foreach( function(item) {
+						console.log(item)
+						total += item;
+					});
+				}
+ 
+				$( column.footer() ).html(
+					'合計:' + total					
+				);*/
 			} );
 		</script>
 	</body>

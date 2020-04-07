@@ -15,5 +15,15 @@
 			global $config_siteid;	
 			return $config_siteid;
 		}
+		
+		public function get_today() {
+			
+			date_default_timezone_set('Asia/Shanghai');
+			$datetime = new DateTime();
+			$datetime->setTimezone(new DateTimeZone('Asia/Shanghai'));
+			$today = $datetime->format('Y-m-d');
+			
+			return $today;
+		}
 	}
 ?>
