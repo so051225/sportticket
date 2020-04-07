@@ -13,14 +13,10 @@ $datetime->setTimezone(new DateTimeZone('Asia/Shanghai'));
 $today = $datetime->format('Y-m-d');
 $start_time_str = $today . ' ' . $hour . ':00:00';
 
-
-$is_error = false;
 $is_available = false;
 
-if (!$is_error) {
-	$view = new OrderView();
-	$is_available = $view->check_court_available($cid, $start_time_str);
-}
+$view = new OrderView();
+$is_available = $view->check_court_available($cid, $start_time_str);
 
 echo json_encode($is_available);
 
