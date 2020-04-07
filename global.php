@@ -24,7 +24,7 @@
 			$today = $datetime->format('Y-m-d');
 			
 			return $today;
-
+		}
 
 		public function get_available_hours() {
 			$CUTOFF_MINUTES = 50;
