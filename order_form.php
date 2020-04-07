@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-		
-		<script src="js/jquery-3.3.1.js"></script>
-		<link rel="stylesheet" href="css/main.css">
-		<link rel="stylesheet" href="css/bootstrap.min.css">		
-		
-		<title>新增票據</title>
 
-		<?php
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <script src="js/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>新增票據</title>
+    <?php
 			include_once('global.php');				
 			$globalObj = new GlobalCommon();
 			$siteName = $globalObj->get_sitename();
 			$siteId =  $globalObj->get_siteId();
 		?>
-
-		<script>
-			Date.prototype.Format = function (fmt) {
+    <script>
+        Date.prototype.Format = function (fmt) {
 				var o = {
 					"M+": this.getMonth() + 1,
 					"d+": this.getDate(),
@@ -156,15 +153,16 @@
 			});
 		</script>
 </head>
+
 <body>
-		<header>
-		<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-			<h5 class="my-0 mr-md-auto font-weight-normal">
-				<?php						
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+            <h5 class="my-0 mr-md-auto font-weight-normal">
+                <?php						
 					echo $siteName . " - 新增票據"; 
 				?>
-			</h5>
-			<?php
+            </h5>
+            <?php
 				$queries = array();
 				parse_str($_SERVER['QUERY_STRING'], $queries);
 				
@@ -177,64 +175,62 @@
 			
 				echo '<input type="hidden" id="thisDate" name="thisDate" value="' . $dateStr . '">';
 			?>
-			
-			<input type="hidden" id="cancelOid" name="cancelOid" value="">
-		</div>
-	</header>
-	<div class="container">
-		<div class="card bg-default">
-			<div class="card-body">
-				<form id="order_form" class="form-group" action="./api/postOrder.php" method="POST" onsubmit="return validataForm()" autocomplete="off">
-					<p>證件類型選擇：</p>
-					<div>
-						<input type="radio" id="id" name="id_type" value="ID" checked>
-						<label for="id">身份證號碼</label><br>
-						<input type="radio" id="esport_id" name="id_type" value="ESPORT_ID">
-						<label for="esport_id">運動易會員</label><br>
-						<input type="radio" id="other_id" name="id_type" value="OTHER_ID">
-						<label for="other_id">其他</label>
-					</div>
-
-					<div>
-						<input type="text" name="id_value" id="id_no" placeholder="請輸入證件號碼" required>
-						<span style="color: red; font-size: 15px;">不需要輸入括號</span>
-					</div>
-					<hr>
-					<div>
-						<label for="courts">場地：</label>
-						<div id='court_id'></div>
-					</div>
-					<hr>
-					<div>
-						<label for="time_options">場次：</label>
-						<div id='time_options'></div>
-					</div>
-					<hr>
-
-					<div>
-						<label for="quantity">人數：</label>
-						<input type="number" id="quantity" name="quantity" min="1" value="1">
-					</div>
-					<hr>
-					<div>
-						金額： <span id="amount_field"></span>
-						<input type="hidden" id="amount" name="amount" value="">
-					</div>
-					<label for="pay_method">支付方式：</label>
-						<select name="pay_method" id="pay_method">
-							<option value="現金" selected="selected">現金</option>
-							<option value="MPay">MPay</option>
-							<option value="澳門通卡">澳門通卡</option>
-							<option value="雲閃付">雲閃付</option>
-							<option value="銀聯閃付卡">閃付卡</option>
-							<option value="代金券">代金券</option>
-						</select>
-					</div>
-				</form>		
-			</div>
-			<button class="btn btn-primary m-2" type="submit" form="order_form" id="submit_btn">確認</button>
-			<button class="btn btn-danger m-2" onclick="window.location.href ='index.php'">返回</button>
-		</div>
-	</div>
+            <input type="hidden" id="cancelOid" name="cancelOid" value="">
+        </div>
+    </header>
+    <div class="container">
+        <div class="card bg-default">
+            <div class="card-body">
+                <form id="order_form" class="form-group" action="./api/postOrder.php" method="POST" onsubmit="return validataForm()" autocomplete="off">
+                    <p>證件類型選擇：</p>
+                    <div>
+                        <input type="radio" id="id" name="id_type" value="ID" checked>
+                        <label for="id">身份證號碼</label><br>
+                        <input type="radio" id="esport_id" name="id_type" value="ESPORT_ID">
+                        <label for="esport_id">運動易會員</label><br>
+                        <input type="radio" id="other_id" name="id_type" value="OTHER_ID">
+                        <label for="other_id">其他</label>
+                    </div>
+                    <div>
+                        <input type="text" name="id_value" id="id_no" placeholder="請輸入證件號碼" required>
+                        <span style="color: red; font-size: 15px;">不需要輸入括號</span>
+                    </div>
+                    <hr>
+                    <div>
+                        <label for="courts">場地：</label>
+                        <div id='court_id'></div>
+                    </div>
+                    <hr>
+                    <div>
+                        <label for="time_options">場次：</label>
+                        <div id='time_options'></div>
+                    </div>
+                    <hr>
+                    <div>
+                        <label for="quantity">人數：</label>
+                        <input type="number" id="quantity" name="quantity" min="1" value="1">
+                    </div>
+                    <hr>
+                    <div>
+                        金額： <span id="amount_field"></span>
+                        <input type="hidden" id="amount" name="amount" value="">
+                    </div>
+                    <label for="pay_method">支付方式：</label>
+                    <select name="pay_method" id="pay_method">
+                        <option value="現金" selected="selected">現金</option>
+                        <option value="MPay">MPay</option>
+                        <option value="澳門通卡">澳門通卡</option>
+                        <option value="雲閃付">雲閃付</option>
+                        <option value="銀聯閃付卡">閃付卡</option>
+                        <option value="代金券">代金券</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        <button class="btn btn-primary m-2" type="submit" form="order_form" id="submit_btn">確認</button>
+        <button class="btn btn-danger m-2" onclick="window.location.href ='index.php'">返回</button>
+    </div>
+    </div>
 </body>
+
 </html>
