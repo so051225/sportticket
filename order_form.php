@@ -52,35 +52,6 @@
 				return [year, month, day].join('-');
 			}
 
-			/*
-			function get_available_datetime() {
-
-				var date = new Date();
-				var dateStr = date.Format("yyyy-MM-dd");
-
-				var hours = date.getHours();
-				var mins = date.getMinutes();
-
-				var start = hours;
-				var end = hours;
-
-				if (mins > 50) {
-					start = hours + 1;
-					end = hours + 1;
-				}
-
-				var options = [];
-
-				for (var i = start; i <= end; i++) {					
-					var option_start_hour = i;
-					var option_end_hour = i+1;
-					var option_label =  dateStr + " " + option_start_hour + ":00 - " + option_end_hour + ":00";
-					options.push({'label':option_label, 'start':option_start_hour, 'end':option_end_hour});
-				}
-
-				return options;
-			}*/
-
 			function get_label(hour) {
 				var start = (hour.length < 2) ? '0' + hour : hour;
 				var end = parseInt(hour) + 1;
@@ -98,14 +69,16 @@
 
 			function init_time_options(hours) {
 				var list = "";
-				hours.forEach(function (hour, index) {
+
+				for (var hour = hours[0]; hour <= hours[1]; ++hour) {
 					var optionId = 'time_option_' + hour;
-					var checked = (index == 0)? 'checked': '';
+					var checked = (hour == hours[0])? 'checked': '';
 					list += '<input onchange="onChange(this)" type="radio" id="time_option_' + hour + '" name="time_option" value="' + hour + '" ' + checked + '> ';
 					list += '<label for="' + hour + '" id="label_' + hour + '">' +  get_label(hour) +  '</label>';
 					list += '<input type="hidden" id="' + hour + '_end" name="' + hour + '_end">';					
 					list += '<br>';
-				});
+				}
+
 				$('#time_options').html( list );
 			}
 			
@@ -118,6 +91,7 @@
 					var html = "";
 					if (!hour_courts || !hour_courts[hour] || hour_courts[hour].length == 0) {
 						html = '<span style="color: red; font-size: 15px;">沒有可租用場地</span>';
+						$('#submit_btn').prop('disabled', true);
 					} else {
 						//<select name="court_id" id="court_id"></select>
 						html += '<select name="court_id" id="court_id">';
