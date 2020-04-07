@@ -224,7 +224,7 @@
 						if (data.length > 0) {
 							console.log(data);
 							for (var i = 0; i < data.length; i++) {
-								if (data[i]['order_status'] === 1) {
+								if (data[i]['order_status'] === 0) {
 									total += intVal(data[i]['amount']);
 								}
 							}
