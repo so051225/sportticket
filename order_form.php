@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -227,7 +227,7 @@
                 </form>
             </div>
         </div>
-        <button class="btn btn-primary m-2" type="submit" form="order_form" id="submit_btn">確認</button>
+        <button class="btn btn-primary m-2" type="submit" form="order_form" id="submit_btn" onclick="return confirm('確認列印?');">確認</button>
         <button class="btn btn-danger m-2" onclick="window.location.href ='index.php'">返回</button>
     </div>
     </div>

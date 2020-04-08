@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 include_once('config.php');
 include_once(ROOT_PATH . 'dal\order_view.php'); 
@@ -20,8 +20,8 @@ $order = $view->get_order_by_id($oid);
 	<style type="text/css" media="print">
 		@page {
 			size: auto;   /* auto is the initial value */
-			margin: 0;   /*this affects the margin in the printer settings */
-			padding: 0 2mm;
+			/*margin: 0;   this affects the margin in the printer settings */
+			/*padding: 0 2mm;*/
 		}
 		.btn {
 			display: none;
@@ -31,7 +31,7 @@ $order = $view->get_order_by_id($oid);
 		}
 		body {
 			/*border: solid 1px black ;*/
-			margin: 0; /* margin you want for the content */
+			margin: 0 8mm 0 2mm; /* margin you want for the content */
 		}
 	</style>
 	<style type="text/css">
