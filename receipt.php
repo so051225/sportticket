@@ -20,7 +20,8 @@ $order = $view->get_order_by_id($oid);
 	<style type="text/css" media="print">
 		@page {
 			size: auto;   /* auto is the initial value */
-			margin: 0 3mm;  /* this affects the margin in the printer settings */
+			margin: 0;   /*this affects the margin in the printer settings */
+			padding: 0 2mm;
 		}
 		.btn {
 			display: none;
@@ -29,7 +30,7 @@ $order = $view->get_order_by_id($oid);
 			margin: 0px;  /* this affects the margin on the html before sending to printer */
 		}
 		body {
-			/*border: solid 1px blue ;*/
+			/*border: solid 1px black ;*/
 			margin: 0; /* margin you want for the content */
 		}
 	</style>
