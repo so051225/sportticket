@@ -21,6 +21,8 @@
 			$globalObj = new GlobalCommon();
 			$siteName = $globalObj->get_sitename();
 			
+			$exportFileName = $globalObj->get_siteid() . '_' . str_replace('-', '', $globalObj->get_today());
+			
 			$queries = array();
 			parse_str($_SERVER['QUERY_STRING'], $queries);					
 			
@@ -206,7 +208,10 @@
 					'bom': true,
 					dom: 'Bfrtip',
 					buttons: [
-						'csv','excelHtml5'
+						{
+							extend: 'excelHtml5', 
+							title: <?php echo $exportFileName; ?>
+						}
 					],
 					"footerCallback": function ( row, data, start, end, display ) {
 						var api = this.api(), data;
@@ -282,21 +287,6 @@
 					//window.open( url, '_blank');
 				}
 				
-				/*var data = table.columns( 8 ).data(); // fee
-				console.log(data);
-				
-				var total = 0;
-				console.log(data);
-				if (!!data) {
-					data.foreach( function(item) {
-						console.log(item)
-						total += item;
-					});
-				}
- 
-				$( column.footer() ).html(
-					'合計:' + total					
-				);*/
 			} );
 		</script>
 	</body>
