@@ -21,7 +21,7 @@
 			$globalObj = new GlobalCommon();
 			$siteName = $globalObj->get_sitename();
 			
-			$exportFileName = $globalObj->get_siteid() . '_' . str_replace('-', '', $globalObj->get_today());
+			$exportFileName = $globalObj->get_siteid() . '_' . $globalObj->get_today();
 			
 			$queries = array();
 			parse_str($_SERVER['QUERY_STRING'], $queries);					
@@ -210,7 +210,7 @@
 					buttons: [
 						{
 							extend: 'excelHtml5', 
-							title: <?php echo $exportFileName; ?>
+							title: '<?php echo $exportFileName; ?>'
 						}
 					],
 					"footerCallback": function ( row, data, start, end, display ) {
